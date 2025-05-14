@@ -1,0 +1,102 @@
+@import url('https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Kite+One&display=swap');
+
+body {
+    width: 100%;
+    min-height: 100vh; /* Use min-height */
+    background-color: #360A09;
+    margin: 0;
+    padding: 0;
+    font-family: "Kite One", sans-serif; /* Default font */
+    display: flex; /* Use flexbox for layout */
+    flex-direction: column; /* Stack header, main, footer */
+    align-items: center; /* Center content horizontally */
+}
+
+        /* Main content area */ 
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Align items vertically */
+    flex-direction: column;
+    width: 100%; /* Take full width */
+}
+
+        /* Header and Footer styling */
+.hf {
+    color: white;
+    font-size: clamp(24px, 5vw, 35px); /* Responsive font size */
+    text-align: center;
+    font-family: "Kite One", sans-serif;
+    margin: 20px 0;
+    padding: 0 15px; /* Add padding */
+    width: 90%; /* Limit width */
+    box-sizing: border-box;
+}
+
+.hf p {
+    font-size: clamp(18px, 4vw, 30px); /* Responsive font size */
+    margin: 0; /* Remove default margin */
+}
+
+        /* Container for decorative flowers */
+#divimgFlower {
+    width: 90%;
+    max-width: 800px;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    margin-bottom: 15px;
+}
+
+        /* Flower image styling */
+#imgflower1, #imgflower2 {
+    width: 90%;
+    height: auto;
+    position: absolute;
+    z-index: 9999; /* Ensure flowers are above Rect1 if overlapping */
+    pointer-events: none; /* Prevent interaction */
+    mix-blend-mode: screen; /* Blending effect */
+    filter: contrast(300%); /* Image filter */
+}
+
+#imgflower1 {
+    right: 70%; /* Position left flower */
+            
+}
+
+#imgflower2 {
+    left: 70%; /* Position right flower */
+}
+
+/* Main grey rectangle container */
+#Rect1 {
+    width: 80%; /* Responsive width */
+    min-height: 700px; /* Minimum height */
+    background-color: #d9d9d9;
+    border-radius: 5px;
+    display: flex; /* Use flex to center content */
+    justify-content: center;
+    align-items: center;
+    opacity: 0.85;
+    padding: 20px;
+    box-sizing: border-box;
+    position: relative; /* Needed for positioning children if required */
+    overflow: hidden; /* Hide overflow if content gets too large */
+}
+
+@media (max-width: 1700px) {
+            #divimgFlower {
+                display: none; /* Oculta as flores em telas menores ou iguais a 768px */
+            }
+
+            #Rect1 {
+                width: 90%;
+            }
+            
+            .hf { /* Ajusta o tamanho da fonte do header/footer em telas menores */
+                 font-size: clamp(18px, 3.5vw, 26px);
+            }
+             .hf p {
+                font-size: clamp(16px, 3vw, 24px);
+            }
+        }

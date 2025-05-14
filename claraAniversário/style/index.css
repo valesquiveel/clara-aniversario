@@ -1,0 +1,245 @@
+/* --- Container Inicial (RectFA - Feliz Aniversário) --- */
+#RectFA {
+    width: 90%; /* Relativo ao #Rect1 */
+    max-width: 700px;
+    height: auto;
+    min-height: 400px;
+    background-image: url('../images/Rectangle\ 2.png'); /* Imagem de fundo para o cartão inicial */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around; /* Distribui o espaço entre os elementos */
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+    border-radius: 5px;
+}
+
+/* Parafusos Decorativos */
+#parafusos {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0 10px; /* Espaçamento interno para os parafusos não colarem nas bordas */
+    box-sizing: border-box;
+}
+
+#imgParafuso1, #imgParafuso2 {
+    width: 35px;
+    height: 35px;
+}
+
+/* Mensagem "Feliz Aniversário" */
+#FA {
+    color: #834923; /* Cor marrom para o texto */
+    font-family: "Architects Daughter", cursive; /* Fonte manuscrita */
+    font-size: clamp(30px, 7vw, 50px); /* Tamanho de fonte responsivo */
+    margin: 20px 0;
+    line-height: 1.2;
+}
+
+/* Estrelas Decorativas */
+#estrelas {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px; /* Espaço entre as estrelas */
+    margin: 15px 0;
+    width: 100%;
+}
+
+#imgEstrelas1, #imgEstrelas2 {
+    width: 40%; /* Largura responsiva, ajuste conforme necessário */
+    max-width: 150px; /* Limita o tamanho máximo das estrelas */
+    height: auto;
+    mix-blend-mode: soft-light;
+}
+
+/* Container do Botão de Estrela Inicial */
+#botao {
+    margin-top: 20px;
+}
+
+/* Botão de Estrela Inicial */
+#botaoEstrela {
+    width: 70px;
+    height: 70px;
+    background-image: url("../images/Star 1.png"); /* Imagem da estrela marrom */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    transition: background-image 0.3s ease;
+    border-radius: 50%; /* Para se ajustar ao formato da estrela, se for circular */
+}
+
+#botaoEstrela:hover {
+    background-image: url('../images/Star 2.png'); /* Imagem da estrela no hover */
+}
+
+
+        /* --- Conteúdo Final (Carta Animada CSS/JS) --- */
+        #conteudoFinal {
+            width: 100%;
+            height: 100%;
+            display: none; 
+            justify-content: center;
+            align-items: center;
+            position: absolute; 
+            top: 0;
+            left: 0;
+        }
+
+        #cartaContainer {
+            position: relative;
+            width: 340px; 
+            height: 240px; 
+            perspective: 1840px; 
+            opacity: 0; 
+            transform: scale(0.7) translateY(30px) rotateX(10deg) rotateY(-15deg);
+            transform-style: preserve-3d; 
+        }
+        
+        .envelope-base { 
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: #B08D57; 
+            border-radius: 4px;
+            box-shadow: 0 3px 7px rgba(0,0,0,0.25);
+            z-index: 1; /* Base do envelope */
+            overflow: hidden; /* Mantido hidden inicialmente, JS mudará para visible */
+        }
+        
+        .abas-internas-decorativas { 
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top:0; left:0;
+            z-index: 3; /* AJUSTE: Abas internas acima da folha */
+        }
+        .aba-interna { 
+            position: absolute;
+            background-color: #A07C4E; 
+        }
+        .aba-interna.esquerda {
+            left: 0; top: 0; width: 160px; height: 100%; 
+            clip-path: polygon(0% 0%, 100% 15%, 100% 85%, 0% 100%);
+        }
+        .aba-interna.direita {
+            right: 0; top: 0; width: 160px; height: 100%;
+            clip-path: polygon(100% 0%, 0% 15%, 0% 85%, 100% 100%);
+        }
+        .aba-interna.inferior { 
+            bottom:0; left:0;
+            width:100%; height: 130px; 
+            clip-path: polygon(10% 100%, 50% 0%, 90% 100%); 
+        }
+        
+        .envelope-aba-superior { 
+            position: absolute;
+            width: 100%;
+            height: 155px; 
+            top: 0; 
+            left: 0;
+            background-color: #E0E0E0; 
+            transform-origin: top center; 
+            transition: transform 1.0s ease-in-out, z-index 0s linear 1.0s; 
+            z-index: 4; /* Acima de tudo inicialmente */
+            clip-path: polygon(0% 0%, 100% 0%, 50% 98%); 
+            border-bottom: 1px solid #c0c0c0; 
+            box-shadow: 0 -1px 2px rgba(0,0,0,0.05) inset;
+        }
+        .envelope-aba-superior.aberta {
+            transform: rotateX(170deg) translateZ(-5px); 
+            z-index: 0; /* Aba vai para trás de tudo quando aberta */
+        }
+        
+        #folhaMensagem {
+            position: absolute;
+            top: 0; 
+            left: 50%;
+            transform: translateX(-50%) translateY(15px); 
+            width: 90%; 
+            height: 220px; 
+            background-color: #fdfaf0; 
+            border: 1px solid #e0dacd;
+            border-radius: 3px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+            padding: 12px;
+            box-sizing: border-box;
+            opacity: 0; 
+            color: #4a3b31; 
+            font-family: "Architects Daughter", cursive;
+            z-index: 2; /* AJUSTE: Folha abaixo das abas internas, acima da base */
+            transition: opacity 0.4s ease-out,
+                        transform 1.5s cubic-bezier(0.22, 0.61, 0.36, 1) 0.3s;
+        }
+        #folhaMensagem.visivel {
+            opacity: 1; 
+            transform: translateX(-50%) translateY(-175px); 
+        }
+
+        #folhaMensagem h1 {
+            font-size: 1.1em; 
+            margin: 0 0 6px 0;
+            color: #7a5c43; 
+            text-align: center;
+        }
+        #folhaMensagem p {
+            font-size: 0.88em; 
+            line-height: 1.4;
+            margin: 0 0 6px 0;
+        }
+
+        /* --- Animações (Keyframes) --- */
+        @keyframes sumirElementosIniciais {
+            from { opacity: 1; transform: scale(1); }
+            to { opacity: 0; transform: scale(0.7); }
+        }
+        @keyframes desaparecerRectFA {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+        @keyframes aparecerCartaContainer { 
+            from { opacity: 0; transform: scale(0.7) translateY(40px) rotateX(20deg) rotateY(-20deg); }
+            to { opacity: 1; transform: scale(1) translateY(0px) rotateX(0deg) rotateY(0deg); }
+        }
+    
+        /* --- Classes de Animação --- */
+        .animacao-sumir-elementos { animation: sumirElementosIniciais 0.7s forwards; }
+        .animacao-desaparecer-rectfa { animation: desaparecerRectFA 1s forwards 0.3s; } 
+        .animacao-aparecer-carta { animation: aparecerCartaContainer 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.2s forwards; } 
+
+/* Botão 2 (Próxima Página), agora dentro de #imgCartaAberta */
+#botao2 {
+    display: none; /* JS vai mudar para 'block' ou 'flex' */
+    opacity: 0;    /* JS vai animar para 1 */
+    position: absolute;
+    bottom: 30%;   /* Distância da parte inferior da #imgCartaAberta */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 5; /* Acima da folha de mensagem e da carta */
+}
+
+#botaoEstrela2 { /* O botão estrela que leva para a próxima página */
+    width: 60px; /* Um pouco menor para caber bem na carta */
+    height: 60px;
+    background-image: url("../images/Star 1.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    transition: background-image 0.3s ease;
+}
+
+#botaoEstrela2:hover {
+    background-image: url('../images/Star 2.png');
+}
