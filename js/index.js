@@ -15,8 +15,8 @@
             // Referência para o NOVO botao2 (o container da estrela na carta)
             const botao2 = document.getElementById('botao2'); 
 
-            const delayTransformacaoFolha = 300;  
-            const duracaoTransformacaoFolha = 1500; 
+            const delayTransformacaoFolha = 400;  
+            const duracaoTransformacaoFolha = 1600; 
 
             console.log("Iniciando animação principal...");
 
@@ -80,10 +80,10 @@
                                     botao2.style.opacity = '1';
                                     console.log("Botão 2 (na carta) aparecendo.");
                                 }
-                            }, tempoTotalAnimacaoFolha + 200); // Aparece após a folha sair + pequeno buffer
+                            }, tempoTotalAnimacaoFolha + 300); // Aparece após a folha sair + pequeno buffer
 
                         }
-                    }, 600); 
+                    }, 700); 
 
                 }, 1400); 
 
