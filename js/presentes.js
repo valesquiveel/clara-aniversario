@@ -106,11 +106,11 @@ document.addEventListener('DOMContentLoaded', () => {
                         const nomeRemetenteOpcional = 'Valentina'; // Opcional, para o corpo do e-mail
 
                         // COLE AQUI O URL PUBLICADO DO SEU GOOGLE APPS SCRIPT (da Parte 1, passo 6)
-                        const urlDoSeuGoogleAppsScript = 'https://script.google.com/macros/s/AKfycbyu_P9zb5khgDZZDH_XqeKZnA92-WIA4zmxyXF6BbXT5sY2HQpkyfrZXQLUa_a04npZYg/exec';
+                        const urlDoSeuGoogleAppsScript = 'https://script.google.com/macros/s/AKfycbzBYVb0PhzdFSXmE3J_mD7XCRyPmjKfQ9IgkyJQGHo50bjoLeEJjoDC9iUEkVd1xSvHZA/exec';
                         // ---------------------------------------------------------------------------
                         
                         // Validação simples para garantir que os placeholders foram alterados
-                        if (urlDoSeuGoogleAppsScript === 'https://script.google.com/macros/s/AKfycbyu_P9zb5khgDZZDH_XqeKZnA92-WIA4zmxyXF6BbXT5sY2HQpkyfrZXQLUa_a04npZYg/exec') {
+                        if (urlDoSeuGoogleAppsScript === 'https://script.google.com/macros/s/AKfycbzBYVb0PhzdFSXmE3J_mD7XCRyPmjKfQ9IgkyJQGHo50bjoLeEJjoDC9iUEkVd1xSvHZA/exec') {
                             alert("CONFIGURAÇÃO NECESSÁRIA:\n\nPor favor, edite o ficheiro HTML/JavaScript e substitua 'URL_DO_SEU_APLICATIVO_WEB_GOOGLE_APPS_SCRIPT_AQUI' pelo URL real do seu Google Apps Script.\n\nConsulte o guia 'Configurar Google Apps Script para Envio de Email' (passo 6) para obter este URL.");
                             console.error("URL do Google Apps Script não configurado no JavaScript.");
                             return; 
