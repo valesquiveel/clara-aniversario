@@ -121,7 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         console.log("Botão 'Confirmar Escolha!' clicado para enviar e-mail.");
 
                         // SUBSTITUA COM OS E-MAILS REAIS
-                        const seuEmail = 'valesquiveel@gmail.com'; 
+                        const seuEmail = 'valentinawpp25@gmail.com'; 
                         const emailDela = 'valesquiveel@gmail.com'; 
                         
                         const tituloDoPresente = modalTituloPresente.textContent;
