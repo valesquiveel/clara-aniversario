@@ -101,8 +101,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         // ---------------------------------------------------------------------------
                         // !! IMPORTANTE: SUBSTITUA OS VALORES ABAIXO COM OS SEUS DADOS REAIS !!
                         // ---------------------------------------------------------------------------
-                        const seuEmailReal = 'valesquiveel@gmail.com'; // Ex: o seu Gmail
-                        const emailDelaReal = 'valentinawpp25@gmail.com'; 
+                        const seuEmailReal = 'valentinawpp25@gmail.com'; // Ex: o seu Gmail
+                        const emailDelaReal = 'valesquiveel@gmail.com'; 
                         const nomeRemetenteOpcional = 'Valentina'; // Opcional, para o corpo do e-mail
 
                         // COLE AQUI O URL PUBLICADO DO SEU GOOGLE APPS SCRIPT (da Parte 1, passo 6)
@@ -115,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             console.error("URL do Google Apps Script não configurado no JavaScript.");
                             return; 
                         }
-                        if (seuEmailReal.includes('valesquiveel@gmail.com') || emailDelaReal.includes('valentinawpp25@gmail.com')) {
+                        if (seuEmailReal.includes('valentinawpp25@gmail.com') || emailDelaReal.includes('valesquiveel@gmail.com')) {
                             alert("CONFIGURAÇÃO NECESSÁRIA:\n\nPor favor, edite o ficheiro HTML/JavaScript e substitua os e-mails de placeholder ('SEU_EMAIL_REAL_AQUI' e 'EMAIL_DELA_REAL_AQUI') pelos endereços de e-mail reais.");
                             console.error("E-mails de destinatário não configurados no JavaScript.");
                             return;
