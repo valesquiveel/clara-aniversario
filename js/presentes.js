@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
             console.log("DOM completamente carregado. A executar presentes.js");
 
-            // --- Lógica do Carrossel ---
+            // --- Lógica do Carrossel (mantida como no seu original) ---
             const trilhaCarrossel = document.querySelector('.carrosselTrilha');
             const botaoProximo = document.getElementById('botaoCarrosselProximo');
             const botaoAnterior = document.getElementById('botaoCarrosselAnterior');
@@ -9,9 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (trilhaCarrossel) {
                 const cartoesPresente = Array.from(trilhaCarrossel.children);
-
                 if (cartoesPresente.length > 0 && botaoProximo && botaoAnterior && janelaCarrossel) {
-                    console.log("Elementos do carrossel encontrados. A configurar o carrossel.");
                     let larguraCartao = cartoesPresente[0].getBoundingClientRect().width;
                     let gapCarrossel = parseFloat(getComputedStyle(trilhaCarrossel).gap) || 20;
                     let indiceAtual = 0;
@@ -33,13 +31,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         botaoProximo.style.display = indiceAtual >= ultimoIndicePossivel ? 'none' : 'flex';
                     };
 
-                    botaoProximo.addEventListener('click', () => {
-                        moverParaCartao(indiceAtual + 1);
-                    });
-
-                    botaoAnterior.addEventListener('click', () => {
-                        moverParaCartao(indiceAtual - 1);
-                    });
+                    botaoProximo.addEventListener('click', () => moverParaCartao(indiceAtual + 1));
+                    botaoAnterior.addEventListener('click', () => moverParaCartao(indiceAtual - 1));
 
                     window.addEventListener('resize', () => {
                         if (cartoesPresente.length > 0 && janelaCarrossel && trilhaCarrossel) {
@@ -50,19 +43,12 @@ document.addEventListener('DOMContentLoaded', () => {
                             atualizarBotoesCarrossel();
                         }
                     });
-
                     moverParaCartao(0); 
                     atualizarBotoesCarrossel();
-
-                } else {
-                    console.warn("Alguns elementos do carrossel não foram encontrados.");
                 }
-            } else {
-                console.error("Elemento .carrosselTrilha não encontrado.");
             }
 
-            // --- Lógica do Modal ---
-            console.log("A tentar configurar a lógica do Modal.");
+            // --- Lógica do Modal (mantida como no seu original, com pequena correção na imagem) ---
             const modalPresente = document.getElementById('modalPresente');
             const botaoFecharModal = document.querySelector('.botaoFecharModal');
             const botoesVerDetalhes = document.querySelectorAll('.botaoVerDetalhesPresente');
@@ -71,18 +57,16 @@ document.addEventListener('DOMContentLoaded', () => {
             const modalDescricaoPresente = document.getElementById('modalDescricaoPresente');
 
             if (modalPresente && botaoFecharModal && botoesVerDetalhes.length > 0 && modalImagemPresente && modalTituloPresente && modalDescricaoPresente) {
-                console.log("Todos os elementos do modal necessários foram encontrados.");
-
                 const abrirModal = (cartao) => {
                     const titulo = cartao.dataset.presenteTitulo;
                     const descricao = cartao.dataset.presenteDescricao;
-                    const imagemSrc = cartao.querySelector('.cartaoPresenteImagem').src; // Pega o src da imagem dentro do cartão
+                    // Usa o data-attribute 'data-presente-imagem-real' para a imagem do modal
+                    const imagemSrc = cartao.dataset.presenteImagemReal || cartao.querySelector('.cartaoPresenteImagem').src;
 
                     modalTituloPresente.textContent = titulo || "Detalhes do Presente";
                     modalDescricaoPresente.textContent = descricao || "Descrição não disponível.";
                     modalImagemPresente.src = imagemSrc || "https://placehold.co/300x200/f0f0f0/ccc?text=Sem+Imagem";
                     modalImagemPresente.alt = titulo || "Imagem do Presente";
-
                     modalPresente.classList.add('visivel');
                     document.body.style.overflow = 'hidden';
                 };
@@ -95,67 +79,102 @@ document.addEventListener('DOMContentLoaded', () => {
                 botoesVerDetalhes.forEach(botao => {
                     botao.addEventListener('click', (evento) => {
                         const cartaoClicado = evento.currentTarget.closest('.cartaoPresente');
-                        if (cartaoClicado) {
-                            abrirModal(cartaoClicado);
-                        }
+                        if (cartaoClicado) abrirModal(cartaoClicado);
                     });
                 });
 
                 botaoFecharModal.addEventListener('click', fecharModal);
                 modalPresente.addEventListener('click', (evento) => {
-                    if (evento.target === modalPresente) {
-                        fecharModal();
-                    }
+                    if (evento.target === modalPresente) fecharModal();
                 });
                 document.addEventListener('keydown', (evento) => {
-                    if (evento.key === 'Escape' && modalPresente.classList.contains('visivel')) {
-                        fecharModal();
-                    }
+                    if (evento.key === 'Escape' && modalPresente.classList.contains('visivel')) fecharModal();
                 });
 
-                // --- NOVO: Lógica do Botão de Escolher Presente (Email) ---
+                // --- MODIFICADO: Lógica do Botão de Escolher Presente (Envio para Google Apps Script) ---
                 const botaoEscolherPresenteEmail = document.querySelector('.modalConteudo .botaoEscolherPresente');
 
                 if (botaoEscolherPresenteEmail) {
                     botaoEscolherPresenteEmail.addEventListener('click', () => {
-                        console.log("Botão 'Confirmar Escolha!' clicado para enviar e-mail.");
+                        console.log("Botão 'Confirmar Escolha!' clicado.");
 
-                        // SUBSTITUA COM OS E-MAILS REAIS
-                        const seuEmail = 'valentinawpp25@gmail.com'; 
-                        const emailDela = 'valesquiveel@gmail.com'; 
+                        // ---------------------------------------------------------------------------
+                        // !! IMPORTANTE: SUBSTITUA OS VALORES ABAIXO COM OS SEUS DADOS REAIS !!
+                        // ---------------------------------------------------------------------------
+                        const seuEmailReal = 'valesquiveel@gmail.com'; // Ex: o seu Gmail
+                        const emailDelaReal = 'valentinawpp25@gmail.com'; 
+                        const nomeRemetenteOpcional = 'Valentina'; // Opcional, para o corpo do e-mail
+
+                        // COLE AQUI O URL PUBLICADO DO SEU GOOGLE APPS SCRIPT (da Parte 1, passo 6)
+                        const urlDoSeuGoogleAppsScript = 'https://script.google.com/macros/s/AKfycbyu_P9zb5khgDZZDH_XqeKZnA92-WIA4zmxyXF6BbXT5sY2HQpkyfrZXQLUa_a04npZYg/exec';
+                        // ---------------------------------------------------------------------------
                         
-                        const tituloDoPresente = modalTituloPresente.textContent;
-
-                        const assunto = `Uma escolha de presente especial: ${tituloDoPresente}!`;
-                        const corpoEmail = `
-Olá!
-
-Só para formalizar, o presente "${tituloDoPresente}" foi o escolhido para esta ocasião especial. 
-
-Mal posso esperar para comemorarmos e aproveitarmos juntos!
-
-Com todo carinho,
-[Seu Nome Aqui - se quiser adicionar]
-                        `;
-
-                        let mailtoLink = `mailto:${seuEmail}`;
-                        if (emailDela && emailDela !== 'valesquiveel@gmail.com') { // Adiciona 'ela' em CC se o email for válido
-                            mailtoLink += `?cc=${emailDela}`;
+                        // Validação simples para garantir que os placeholders foram alterados
+                        if (urlDoSeuGoogleAppsScript === 'https://script.google.com/macros/s/AKfycbyu_P9zb5khgDZZDH_XqeKZnA92-WIA4zmxyXF6BbXT5sY2HQpkyfrZXQLUa_a04npZYg/exec') {
+                            alert("CONFIGURAÇÃO NECESSÁRIA:\n\nPor favor, edite o ficheiro HTML/JavaScript e substitua 'URL_DO_SEU_APLICATIVO_WEB_GOOGLE_APPS_SCRIPT_AQUI' pelo URL real do seu Google Apps Script.\n\nConsulte o guia 'Configurar Google Apps Script para Envio de Email' (passo 6) para obter este URL.");
+                            console.error("URL do Google Apps Script não configurado no JavaScript.");
+                            return; 
                         }
-                        mailtoLink += `${emailDela && emailDela !== 'valesquiveel@gmail.com' ? '&' : '?'}subject=${encodeURIComponent(assunto)}`;
-                        mailtoLink += `&body=${encodeURIComponent(corpoEmail)}`;
+                        if (seuEmailReal.includes('valesquiveel@gmail.com') || emailDelaReal.includes('valentinawpp25@gmail.com')) {
+                            alert("CONFIGURAÇÃO NECESSÁRIA:\n\nPor favor, edite o ficheiro HTML/JavaScript e substitua os e-mails de placeholder ('SEU_EMAIL_REAL_AQUI' e 'EMAIL_DELA_REAL_AQUI') pelos endereços de e-mail reais.");
+                            console.error("E-mails de destinatário não configurados no JavaScript.");
+                            return;
+                        }
 
-                        console.log("Abrindo link mailto:", mailtoLink);
-                        window.location.href = mailtoLink;
+                        const tituloDoPresenteEscolhido = modalTituloPresente.textContent;
+                        
+                        botaoEscolherPresenteEmail.disabled = true;
+                        botaoEscolherPresenteEmail.textContent = 'A Enviar...';
 
-                        // Opcional: Fechar o modal após clicar em escolher
-                        // fecharModal(); // Descomente se quiser que o modal feche
+                        const dadosParaEnviar = {
+                            tituloPresente: tituloDoPresenteEscolhido,
+                            seuEmail: seuEmailReal,
+                            emailDela: emailDelaReal,
+                            nomeRemetente: nomeRemetenteOpcional
+                        };
+
+                        console.log("A enviar dados para o Google Apps Script:", JSON.stringify(dadosParaEnviar));
+                        console.log("URL do Script:", urlDoSeuGoogleAppsScript);
+
+                        fetch(urlDoSeuGoogleAppsScript, {
+                            method: 'POST',
+                            mode: 'no-cors', // Alterado para 'no-cors' para simplificar o redirecionamento do Apps Script
+                                            // O Apps Script precisa retornar ContentService.createTextOutput(...)
+                                            // e não pode definir cabeçalhos CORS complexos facilmente para POST de text/plain.
+                                            // Com 'no-cors', o JavaScript do cliente não poderá ler a resposta do servidor,
+                                            // mas a requisição POST ainda será enviada.
+                                            // O feedback de sucesso/erro será mais limitado no lado do cliente.
+                            cache: 'no-cache',
+                            headers: {
+                                // Content-Type é omitido quando mode: 'no-cors' para certos tipos de requisição,
+                                // ou pode ser 'text/plain' se o servidor não reclamar.
+                                // Para e.postData.contents, o Apps Script geralmente espera text/plain.
+                                // No entanto, com 'no-cors', o browser pode restringir cabeçalhos.
+                                // Vamos enviar como string e o Apps Script faz JSON.parse(e.postData.contents).
+                            },
+                            body: JSON.stringify(dadosParaEnviar), 
+                        })
+                        .then(response => {
+                            // Com mode: 'no-cors', não podemos ler a response.status ou response.json() diretamente.
+                            // A requisição é enviada, mas o cliente não tem acesso à resposta detalhada.
+                            // Assumimos sucesso se não houver erro de rede imediato.
+                            console.log('Requisição enviada para o Apps Script (modo no-cors). Verifique os logs do Apps Script e a caixa de entrada para confirmação.');
+                            alert('Notificação do presente enviada! Verifique a sua caixa de entrada (e a dela) em breve.'); 
+                            fecharModal(); 
+                        })
+                        .catch(error => {
+                            console.error('Erro de rede ao enviar para o Apps Script:', error);
+                            alert('Ocorreu um erro de rede ao tentar enviar a notificação. Verifique a consola para mais detalhes e certifique-se que o URL do Apps Script está correto e publicado.');
+                        })
+                        .finally(() => {
+                            botaoEscolherPresenteEmail.disabled = false;
+                            botaoEscolherPresenteEmail.textContent = 'Confirmar Escolha!';
+                        });
                     });
                 } else {
-                    console.warn("Botão '.botaoEscolherPresente' dentro do modal não encontrado para a funcionalidade de e-mail.");
+                    console.warn("Botão '.botaoEscolherPresente' dentro do modal não encontrado.");
                 }
-
             } else {
-                console.error("ERRO CRÍTICO NA CONFIGURAÇÃO DO MODAL: Um ou mais elementos essenciais do modal não foram encontrados.");
+                console.error("ERRO CRÍTICO NA CONFIGURAÇÃO DO MODAL.");
             }
         });
