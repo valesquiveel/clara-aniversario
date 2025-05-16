@@ -110,16 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         // ---------------------------------------------------------------------------
                         
                         // Validação simples para garantir que os placeholders foram alterados
-                        if (urlDoSeuGoogleAppsScript === 'https://script.google.com/macros/s/AKfycbzBYVb0PhzdFSXmE3J_mD7XCRyPmjKfQ9IgkyJQGHo50bjoLeEJjoDC9iUEkVd1xSvHZA/exec') {
-                            alert("CONFIGURAÇÃO NECESSÁRIA:\n\nPor favor, edite o ficheiro HTML/JavaScript e substitua 'URL_DO_SEU_APLICATIVO_WEB_GOOGLE_APPS_SCRIPT_AQUI' pelo URL real do seu Google Apps Script.\n\nConsulte o guia 'Configurar Google Apps Script para Envio de Email' (passo 6) para obter este URL.");
-                            console.error("URL do Google Apps Script não configurado no JavaScript.");
-                            return; 
-                        }
-                        if (seuEmailReal.includes('valentinawpp25@gmail.com') || emailDelaReal.includes('valesquiveel@gmail.com')) {
-                            alert("CONFIGURAÇÃO NECESSÁRIA:\n\nPor favor, edite o ficheiro HTML/JavaScript e substitua os e-mails de placeholder ('SEU_EMAIL_REAL_AQUI' e 'EMAIL_DELA_REAL_AQUI') pelos endereços de e-mail reais.");
-                            console.error("E-mails de destinatário não configurados no JavaScript.");
-                            return;
-                        }
+                        
 
                         const tituloDoPresenteEscolhido = modalTituloPresente.textContent;
                         
