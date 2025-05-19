@@ -174,10 +174,10 @@ document.addEventListener('DOMContentLoaded', () => {
             botaoAcionado.textContent = 'A Enviar...';
 
             // Substitua com os seus dados reais
-            const seuEmailReal = 'valesquiveel@gmail.com'; // SEU EMAIL
-            const emailDelaReal = 'valentinawpp25@gmail.com'; // EMAIL DELA
+            const seuEmailReal = 'valentinawpp25@gmail.com'; // SEU EMAIL
+            const emailDelaReal = 'qpanaclara@gmail.com'; // EMAIL DELA
             const nomeRemetenteOpcional = 'Valentina'; // SEU NOME
-            const urlDoSeuGoogleAppsScript = 'https://script.google.com/macros/s/AKfycbxwiABQMv5OdXp27mvPDcXlMCCYq9Y8fa4SfhvYovybSYiD0WSXiXjGNebbmXVQq4C-Hg/exec'; // SEU URL DO SCRIPT
+            const urlDoSeuGoogleAppsScript = 'https://script.google.com/macros/s/AKfycbzopxq7YnHN_8uV_f-mCsvJ1qWNf3FHJmyZxHY6QUIwem8Xhymle2xoS6vccAFdfoPfMQ/exec'; // SEU URL DO SCRIPT
 
             const dadosParaEnviar = {
                 seuEmail: seuEmailReal,
