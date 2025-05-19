@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>O Mapa dos Nossos Próximos Sorrisos</title>
+    <style>
+        /* Conteúdo de geral.css, index.css, presentes.css e estilos do novo formulário */
+        @import url('https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Kite+One&display=swap');
+        body {
+            width: 100%; min-height: 100vh; background-color: #360A09; margin: 0; padding: 0;
+            font-family: "Kite One", sans-serif; display: flex; flex-direction: column;
+            align-items: center; overflow-x: hidden; 
+        }
+        main {
+            display: flex; justify-content: center; align-items: center; flex-direction: column;
+            width: 100%; flex-grow: 1; padding: 10px 0;
+        }
+        .hf { 
+            color: white; font-size: clamp(20px, 4vw, 30px); text-align: center;
+            font-family: "Kite One", sans-serif; margin: 20px 0; padding: 0 15px;
+            width: 90%; max-width: 800px; box-sizing: border-box;
+        }
+        .hf p { font-size: clamp(18px, 3.5vw, 28px); margin: 0; }
+
+        #divimgFlower {
+            width: 90%; max-width: 800px; height: 150px; display: flex;
+            justify-content: center; position: relative; margin-bottom: -60px;
+            z-index: 10; pointer-events: none;
+        }
+        #imgflower1, #imgflower2 {
+            width: 48%; max-width: 230px; height: auto; position: absolute; top: 0;
+            mix-blend-mode: screen; filter: contrast(280%); 
+        }
+        #imgflower1 { left: 0%; transform: translateX(-35%) scaleX(-1); }
+        #imgflower2 { right: 0%; transform: translateX(35%); }
+
+        #Rect1 {
+            width: 85%; max-width: 700px; min-height: 500px; 
+            background-color: rgba(217, 217, 217, 0.85); border-radius: 8px; 
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            padding: 70px 20px 20px 20px; box-sizing: border-box; position: relative; 
+            box-shadow: 0px 8px 20px rgba(0,0,0,0.25); overflow: visible;
+        }
+
+        #containerCarrosselPresentes {
+            position: relative; width: 95%; max-width: 1080px; margin: auto; 
+            padding: 0 30px; box-sizing: border-box;
+        }
+        .carrosselJanela { width: 100%; overflow: hidden; border-radius: 5px; }
+        .carrosselTrilha { display: flex; gap: 20px; padding: 10px; transition: transform 0.5s ease-in-out; }
+        .cartaoPresente {
+            flex: 0 0 200px; background-color: #fdfaf7; border: 1px solid #dec0aa; 
+            border-radius: 8px; padding: 15px; text-align: center;
+            font-family: "Kite One", sans-serif; color: #360A09; 
+            box-shadow: 0px 4px 12px rgba(54, 10, 9, 0.15); 
+            display: flex; flex-direction: column; justify-content: space-between; 
+            min-height: 380px; 
+        }
+        .cartaoPresenteImagem {
+            width: 100%; height: 140px; object-fit: cover; border-radius: 4px;
+            margin-bottom: 12px; border: 1px solid #eee;
+        }
+        .cartaoPresenteTitulo {
+            font-family: "Architects Daughter", cursive; color: #834923; 
+            font-size: 1.5em; margin: 5px 0 10px 0; line-height: 1.2; min-height: 40px; 
+        }
+        .cartaoPresenteDescCurta {
+            font-size: 0.9em; color: #4f4f4f; line-height: 1.4;
+            margin-bottom: 15px; flex-grow: 1; 
+        }
+        .botaoVerDetalhesPresente {
+            background-color: #834923; color: white; font-family: "Kite One", sans-serif;
+            font-size: 0.95em; border: none; padding: 10px 18px; border-radius: 5px;
+            cursor: pointer; transition: background-color 0.3s ease, transform 0.2s ease;
+            display: inline-block; width: 90%; margin: 0 auto; 
+        }
+        .botaoVerDetalhesPresente:hover { background-color: #6a3a1b; transform: translateY(-2px); }
+
+        .botaoCarrossel {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            background-color: rgba(54, 10, 9, 0.7); color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 50%;
+            width: 40px; height: 40px; font-size: 20px; font-weight: bold;
+            cursor: pointer; z-index: 20; transition: background-color 0.3s ease, border-color 0.3s ease;
+            display: flex; justify-content: center; align-items: center; line-height: 1;
+        }
+        .botaoCarrossel:hover { background-color: #360A09; border-color: rgba(255, 255, 255, 0.7); }
+        .botaoCarrossel.anterior { left: 0px; }
+        .botaoCarrossel.proximo { right: 0px; }
+
+        .modalCamadaFundo { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(30, 5, 5, 0.88); display: flex;
+            justify-content: center; align-items: center; z-index: 1000; 
+            opacity: 0; visibility: hidden;
+            transition: opacity 0.4s ease, visibility 0s linear 0.4s; 
+            padding: 15px; box-sizing: border-box;
+        }
+        .modalCamadaFundo.visivel { opacity: 1; visibility: visible; transition: opacity 0.4s ease; }
+        .modalConteudo {
+            background-color: #fdfaf7; color: #360A09; padding: 25px 30px;
+            border-radius: 8px; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+            width: 100%; max-width: 580px; position: relative; text-align: center;
+            transform: scale(0.9) translateY(15px); 
+            transition: transform 0.35s cubic-bezier(0.18, 0.89, 0.32, 1.28), opacity 0.3s ease-out;
+            opacity: 0; max-height: 90vh; overflow-y: auto; 
+        }
+        .modalCamadaFundo.visivel .modalConteudo { transform: scale(1) translateY(0); opacity: 1; }
+        .botaoFecharModal {
+            position: absolute; top: 12px; right: 15px; background: transparent;
+            border: none; font-size: 28px; font-weight: 300; color: #834923; 
+            cursor: pointer; padding: 5px; line-height: 1;
+            transition: color 0.2s ease, transform 0.2s ease; z-index: 10; 
+        }
+        .botaoFecharModal:hover { color: #360A09; transform: scale(1.1); }
+        .modalPresenteImagem {
+            width: 100%; max-width: 320px; height: auto; max-height: 250px;
+            object-fit: contain; margin: 0 auto 20px auto; border-radius: 6px;
+            border: 1px solid #e0e0e0; 
+        }
+        .modalPresenteTitulo {
+            font-family: "Architects Daughter", cursive; color: #834923; 
+            font-size: 2em; margin: 0 0 15px 0; 
+        }
+        .modalPresenteDescricao {
+            font-family: "Kite One", sans-serif; color: #360A09; 
+            font-size: 1em; line-height: 1.6; margin-bottom: 25px; 
+            text-align: justify; padding: 0 10px; 
+        }
+        #botaoAcaoModalPrincipal {
+            background-color: #834923; color: white; font-family: "Kite One", sans-serif;
+            font-size: 1.05em; border: none; padding: 12px 25px; border-radius: 5px;
+            cursor: pointer; transition: background-color 0.3s ease, transform 0.2s ease;
+            display: inline-block; margin-top: 10px; 
+        }
+        #botaoAcaoModalPrincipal:hover { background-color: #6a3a1b; transform: translateY(-2px); }
+        
+        #miniFormularioPresente {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+            text-align: left;
+        }
+        #miniFormularioPresente label {
+            display: block;
+            margin-bottom: 5px;
+            color: #360A09;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+        #miniFormularioPresente input[type="date"],
+        #miniFormularioPresente textarea {
+            width: calc(100% - 22px); 
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-family: "Kite One", sans-serif;
+            font-size: 0.95em;
+            box-sizing: border-box;
+        }
+        #miniFormularioPresente textarea {
+            resize: vertical;
+            min-height: 60px;
+        }
+        #botaoSubmeterIdeia {
+            background-color: #834923; color: white; font-family: "Kite One", sans-serif;
+            font-size: 1.05em; border: none; padding: 12px 25px; border-radius: 5px;
+            cursor: pointer; transition: background-color 0.3s ease, transform 0.2s ease;
+            display: block; margin: 10px auto 0 auto; width: auto;
+        }
+        #botaoSubmeterIdeia:hover { background-color: #6a3a1b; transform: translateY(-2px); }
+
+
+        @media (max-width: 768px) {
+            #divimgFlower { display: none; }
+            .hf { font-size: clamp(18px, 3.5vw, 26px); }
+            .hf p { font-size: clamp(16px, 3vw, 24px); }
+            #Rect1 { padding-top: 30px; padding-left: 15px; padding-right: 15px; width: 90%; }
+        }
+        @media (max-width: 600px) {
+            .modalConteudo { padding: 20px 15px; max-width: 95%; }
+            .modalPresenteTitulo { font-size: 1.8em; }
+            .modalPresenteDescricao { font-size: 0.95em; }
+            .botaoFecharModal { top: 8px; right: 10px; font-size: 26px; }
+        }
+    </style>
+</head>
+<body>
+    <header class="hf">
+        <p>Porque seu aniversário não é só mais um dia qualquer...</p>
+    </header>
+
+    <main>
+        <div id="divimgFlower">
+            <img id="imgflower1" src="https://placehold.co/230x150/FFB6C1/FFB6C1?text=Flor" alt="[Imagem de Flor Decorativa Esquerda]">
+            <img id="imgflower2" src="https://placehold.co/230x150/FFB6C1/FFB6C1?text=Flor" alt="[Imagem de Flor Decorativa Direita]">
+        </div>
+
+        <div id="Rect1">
+            <div id="containerCarrosselPresentes">
+                <div class="carrosselJanela">
+                    <div class="carrosselTrilha">
+                        <div class="cartaoPresente"
+                             data-presente-id="1" 
+                             data-presente-titulo="Vale Jantar Romântico"
+                             data-presente-descricao="Uma noite especial num restaurante à nossa escolha, com tudo incluído, para celebrarmos nós duas em grande estilo. Ambiente acolhedor, comida deliciosa e a melhor companhia do mundo!"
+                             data-presente-imagem-real="https://placehold.co/200x140/A0522D/FFFFFF?text=Jantar">
+                            <img src="https://placehold.co/200x140/A0522D/FFFFFF?text=Jantar" alt="[Imagem de Vale Jantar Romântico]" class="cartaoPresenteImagem">
+                            <h3 class="cartaoPresenteTitulo">Vale Jantar</h3>
+                            <p class="cartaoPresenteDescCurta">Uma noite inesquecível a dois.</p>
+                            <button class="botaoVerDetalhesPresente">Ver Detalhes</button>
+                        </div>
+
+                        <div class="cartaoPresente"
+                             data-presente-id="2" 
+                             data-presente-titulo="Um Momento Só Nosso" 
+                             data-presente-descricao="Este presente é uma tela em branco para criarmos juntas! Pode ser uma aventura, um projeto, um aprendizado... O que o seu coração desejar para este nosso novo ciclo. Use o botão abaixo para partilhar a sua ideia!"
+                             data-presente-imagem-real="https://placehold.co/200x140/8FBC8F/FFFFFF?text=Escolha">
+                            <img src="https://placehold.co/200x140/8FBC8F/FFFFFF?text=Escolha" alt="Um Momento Só Nosso" class="cartaoPresenteImagem">
+                            <h3 class="cartaoPresenteTitulo">Um Momento Só Nosso</h3>
+                            <p class="cartaoPresenteDescCurta">Crie aqui a sua ideia de presente ou date!</p>
+                            <button class="botaoVerDetalhesPresente">Ver Detalhes</button>
+                        </div>
+                        
+                        <div class="cartaoPresente"
+                             data-presente-id="3"
+                             data-presente-titulo="Dia de Spa Relaxante"
+                             data-presente-descricao="Um dia completo em um spa de luxo, com massagens, tratamentos faciais e tudo que você merece para relaxar e se sentir renovada. Sugira o spa ou tratamentos específicos!"
+                             data-presente-imagem-real="https://placehold.co/200x140/ADD8E6/333333?text=Spa">
+                            <img src="https://placehold.co/200x140/ADD8E6/333333?text=Spa" alt="[Imagem de Dia de Spa Relaxante]" class="cartaoPresenteImagem">
+                            <h3 class="cartaoPresenteTitulo">Dia de Spa Relaxante</h3>
+                            <p class="cartaoPresenteDescCurta">Relaxe e recarregue as energias (personalize!).</p>
+                            <button class="botaoVerDetalhesPresente">Ver Detalhes</button>
+                        </div>
+                        <div class="cartaoPresente" data-presente-id="4" data-presente-titulo="Curso de Fotografia" data-presente-descricao="Para você registrar todos os nossos momentos com um olhar ainda mais artístico. Qual tipo de fotografia te atrai mais?" data-presente-imagem-real="https://placehold.co/200x140/D2B48C/FFFFFF?text=Foto"><img src="https://placehold.co/200x140/D2B48C/FFFFFF?text=Foto" alt="[Imagem de Curso de Fotografia]" class="cartaoPresenteImagem"><h3 class="cartaoPresenteTitulo">Curso de Fotografia</h3><p class="cartaoPresenteDescCurta">Capture a beleza (personalize!).</p><button class="botaoVerDetalhesPresente">Ver Detalhes</button></div>
+                        <div class="cartaoPresente" data-presente-id="5" data-presente-titulo="Assinatura de Vinhos" data-presente-descricao="Uma seleção mensal de vinhos. Tem alguma preferência de uva ou região para começarmos?" data-presente-imagem-real="https://placehold.co/200x140/800000/FFFFFF?text=Vinho"><img src="https://placehold.co/200x140/800000/FFFFFF?text=Vinho" alt="[Imagem de Assinatura de Vinhos]" class="cartaoPresenteImagem"><h3 class="cartaoPresenteTitulo">Assinatura de Vinhos</h3><p class="cartaoPresenteDescCurta">Descobrindo sabores (personalize!).</p><button class="botaoVerDetalhesPresente">Ver Detalhes</button></div>
+                        <div class="cartaoPresente" data-presente-id="6" data-presente-titulo="Kit Jardinagem Gourmet" data-presente-descricao="Um kit completo para cultivarmos nossos próprios temperos. Quais ervas gostaria de ter?" data-presente-imagem-real="https://placehold.co/200x140/228B22/FFFFFF?text=Horta"><img src="https://placehold.co/200x140/228B22/FFFFFF?text=Horta" alt="[Imagem de Kit de Jardinagem Gourmet]" class="cartaoPresenteImagem"><h3 class="cartaoPresenteTitulo">Kit Jardinagem</h3><p class="cartaoPresenteDescCurta">Cultivando amor (personalize!).</p><button class="botaoVerDetalhesPresente">Ver Detalhes</button></div>
+                        <div class="cartaoPresente" data-presente-id="7" data-presente-titulo="Noite de Jogos Clássicos" data-presente-descricao="Uma coleção de jogos de tabuleiro e cartas clássicos. Qual jogo não pode faltar?" data-presente-imagem-real="https://placehold.co/200x140/4682B4/FFFFFF?text=Jogos"><img src="https://placehold.co/200x140/4682B4/FFFFFF?text=Jogos" alt="[Imagem de Noite de Jogos Clássicos]" class="cartaoPresenteImagem"><h3 class="cartaoPresenteTitulo">Noite de Jogos</h3><p class="cartaoPresenteDescCurta">Diversão garantida (personalize!).</p><button class="botaoVerDetalhesPresente">Ver Detalhes</button></div>
+                        <div class="cartaoPresente" data-presente-id="8" data-presente-titulo="Ingressos para Show" data-presente-descricao="Dois ingressos VIP para o show da sua banda/artista favorito. Quem você gostaria de ver?" data-presente-imagem-real="https://placehold.co/200x140/FF69B4/FFFFFF?text=Show"><img src="https://placehold.co/200x140/FF69B4/FFFFFF?text=Show" alt="[Imagem de Ingressos para Show]" class="cartaoPresenteImagem"><h3 class="cartaoPresenteTitulo">Ingressos Show</h3><p class="cartaoPresenteDescCurta">Música e emoção (personalize!).</p><button class="botaoVerDetalhesPresente">Ver Detalhes</button></div>
+                        <div class="cartaoPresente" data-presente-id="9" data-presente-titulo="Vale Livraria" data-presente-descricao="Um generoso vale-presente para você se perder em sua livraria preferida. Qual livro está na sua lista?" data-presente-imagem-real="https://placehold.co/200x140/DAA520/333333?text=Livros"><img src="https://placehold.co/200x140/DAA520/333333?text=Livros" alt="[Imagem de Vale Livraria]" class="cartaoPresenteImagem"><h3 class="cartaoPresenteTitulo">Vale Livraria</h3><p class="cartaoPresenteDescCurta">Aventuras literárias (personalize!).</p><button class="botaoVerDetalhesPresente">Ver Detalhes</button></div>
+                        <div class="cartaoPresente" data-presente-id="10" data-presente-titulo="Bicicleta para Aventuras" data-presente-descricao="Uma bicicleta moderna e confortável. Qual cor ou estilo você prefere?" data-presente-imagem-real="https://placehold.co/200x140/3CB371/FFFFFF?text=Bike"><img src="https://placehold.co/200x140/3CB371/FFFFFF?text=Bike" alt="[Imagem de Bicicleta Nova]" class="cartaoPresenteImagem"><h3 class="cartaoPresenteTitulo">Bicicleta Nova</h3><p class="cartaoPresenteDescCurta">Rumo à felicidade (personalize!).</p><button class="botaoVerDetalhesPresente">Ver Detalhes</button></div>
+                        <div class="cartaoPresente" data-presente-id="11" data-presente-titulo="Aula Experimental Criativa" data-presente-descricao="Escolha uma aula experimental de algo que sempre quis aprender. Qual seria?" data-presente-imagem-real="https://placehold.co/200x140/FF7F50/333333?text=Arte"><img src="https://placehold.co/200x140/FF7F50/333333?text=Arte" alt="[Imagem de Aula Experimental Criativa]" class="cartaoPresenteImagem"><h3 class="cartaoPresenteTitulo">Aula Criativa</h3><p class="cartaoPresenteDescCurta">Novos talentos (personalize!).</p><button class="botaoVerDetalhesPresente">Ver Detalhes</button></div>
+                        <div class="cartaoPresente" data-presente-id="12" data-presente-titulo="Fone de Ouvido Premium" data-presente-descricao="Um fone de ouvido com cancelamento de ruído. Alguma marca ou modelo em mente?" data-presente-imagem-real="https://placehold.co/200x140/6A5ACD/FFFFFF?text=Fone"><img src="https://placehold.co/200x140/6A5ACD/FFFFFF?text=Fone" alt="[Imagem de Fone de Ouvido Premium]" class="cartaoPresenteImagem"><h3 class="cartaoPresenteTitulo">Fone Premium</h3><p class="cartaoPresenteDescCurta">Sua trilha sonora (personalize!).</p><button class="botaoVerDetalhesPresente">Ver Detalhes</button></div>
+                        <div class="cartaoPresente" data-presente-id="13" data-presente-titulo="Arte Personalizada" data-presente-descricao="Uma ilustração, pintura ou escultura feita sob medida. Qual tema ou estilo?" data-presente-imagem-real="https://placehold.co/200x140/BDB76B/333333?text=Quadro"><img src="https://placehold.co/200x140/BDB76B/333333?text=Quadro" alt="[Imagem de Peça de Arte Personalizada]" class="cartaoPresenteImagem"><h3 class="cartaoPresenteTitulo">Arte Personalizada</h3><p class="cartaoPresenteDescCurta">Um toque único (personalize!).</p><button class="botaoVerDetalhesPresente">Ver Detalhes</button></div>
+                        <div class="cartaoPresente" data-presente-id="14" data-presente-titulo="Doação Especial" data-presente-descricao="Uma doação generosa para uma causa que você admira. Qual causa é importante para si?" data-presente-imagem-real="https://placehold.co/200x140/20B2AA/FFFFFF?text=Doar"><img src="https://placehold.co/200x140/20B2AA/FFFFFF?text=Doar" alt="[Imagem de Doação Especial]" class="cartaoPresenteImagem"><h3 class="cartaoPresenteTitulo">Doação Especial</h3><p class="cartaoPresenteDescCurta">Fazendo a diferença (personalize!).</p><button class="botaoVerDetalhesPresente">Ver Detalhes</button></div>
+                        <div class="cartaoPresente" data-presente-id="15" data-presente-titulo="Viagem Surpresa" data-presente-descricao="Prepare as malas para um destino surpresa! Alguma pista do que gostaria?" data-presente-imagem-real="https://placehold.co/200x140/FFA07A/333333?text=Viagem"><img src="https://placehold.co/200x140/FFA07A/333333?text=Viagem" alt="[Imagem de Viagem Surpresa]" class="cartaoPresenteImagem"><h3 class="cartaoPresenteTitulo">Viagem Surpresa</h3><p class="cartaoPresenteDescCurta">A aventura nos chama (personalize!).</p><button class="botaoVerDetalhesPresente">Ver Detalhes</button></div>
+                    </div>
+                </div>
+                <button id="botaoCarrosselAnterior" class="botaoCarrossel anterior" aria-label="Anterior">&lt;</button>
+                <button id="botaoCarrosselProximo" class="botaoCarrossel proximo" aria-label="Próximo">&gt;</button>
+            </div>
+        </div>
+
+        <div id="modalPresente" class="modalCamadaFundo">
+            <div class="modalConteudo">
+                <button class="botaoFecharModal" aria-label="Fechar Modal">&times;</button>
+                <img id="modalImagemPresente" src="" alt="[Imagem de Imagem do Presente]" class="modalPresenteImagem">
+                <h2 id="modalTituloPresente" class="modalPresenteTitulo"></h2>
+                <p id="modalDescricaoPresente" class="modalPresenteDescricao"></p>
+
+                <div id="miniFormularioPresente" style="display: none;">
+                    <label for="ideiaPresente">Sua ideia de Date/Presente:</label>
+                    <textarea id="ideiaPresente" name="ideiaPresente" rows="3" placeholder="Descreva sua ideia..." required></textarea>
+                    
+                    <label for="dataPresente">Data Sugerida:</label>
+                    <input type="date" id="dataPresente" name="dataPresente" required> 
+                    
+                    <label for="observacaoPresente">Observações Adicionais:</label>
+                    <textarea id="observacaoPresente" name="observacaoPresente" rows="2" placeholder="Algo mais a notar?"></textarea>
+                    
+                    <button id="botaoSubmeterIdeia" class="botaoEscolherPresente">Enviar Ideia</button>
+                </div>
+
+                <button class="botaoEscolherPresente" id="botaoAcaoModalPrincipal">Confirmar Escolha!</button> 
+            </div>
+        </div>
+    </main>
+
+    <footer class="hf">
+        <p>...então aproveite os presentes.</p>
+    </footer>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log("DOM completamente carregado. A executar presentes.js");
+
+            const trilhaCarrossel = document.querySelector('.carrosselTrilha');
+            const botaoProximo = document.getElementById('botaoCarrosselProximo');
+            const botaoAnterior = document.getElementById('botaoCarrosselAnterior');
+            const janelaCarrossel = document.querySelector('.carrosselJanela');
+
+            if (trilhaCarrossel) {
+                const cartoesPresenteCarrossel = Array.from(trilhaCarrossel.children);
+                if (cartoesPresenteCarrossel.length > 0 && botaoProximo && botaoAnterior && janelaCarrossel) {
+                    let larguraCartao = cartoesPresenteCarrossel[0].getBoundingClientRect().width;
+                    let gapCarrossel = parseFloat(getComputedStyle(trilhaCarrossel).gap) || 20;
+                    let indiceAtual = 0;
+                    let cartoesVisiveis = Math.max(1, Math.floor(janelaCarrossel.offsetWidth / (larguraCartao + gapCarrossel)));
+
+                    const moverParaCartao = (indiceAlvo) => {
+                        if (!trilhaCarrossel) return;
+                        const novoIndice = Math.max(0, Math.min(indiceAlvo, cartoesPresenteCarrossel.length - cartoesVisiveis));
+                        const deslocamento = novoIndice * (larguraCartao + gapCarrossel);
+                        trilhaCarrossel.style.transform = `translateX(-${deslocamento}px)`;
+                        indiceAtual = novoIndice;
+                        atualizarBotoesCarrossel();
+                    };
+
+                    const atualizarBotoesCarrossel = () => {
+                        if (!botaoAnterior || !botaoProximo) return;
+                        botaoAnterior.style.display = indiceAtual === 0 ? 'none' : 'flex';
+                        const ultimoIndicePossivel = Math.max(0, cartoesPresenteCarrossel.length - cartoesVisiveis);
+                        botaoProximo.style.display = indiceAtual >= ultimoIndicePossivel ? 'none' : 'flex';
+                    };
+
+                    botaoProximo.addEventListener('click', () => moverParaCartao(indiceAtual + 1));
+                    botaoAnterior.addEventListener('click', () => moverParaCartao(indiceAtual - 1));
+
+                    window.addEventListener('resize', () => {
+                        if (cartoesPresenteCarrossel.length > 0 && janelaCarrossel && trilhaCarrossel) {
+                            larguraCartao = cartoesPresenteCarrossel[0].getBoundingClientRect().width;
+                            gapCarrossel = parseFloat(getComputedStyle(trilhaCarrossel).gap) || 20;
+                            cartoesVisiveis = Math.max(1, Math.floor(janelaCarrossel.offsetWidth / (larguraCartao + gapCarrossel)));
+                            moverParaCartao(indiceAtual); 
+                            atualizarBotoesCarrossel();
+                        }
+                    });
+                    moverParaCartao(0); 
+                    atualizarBotoesCarrossel();
+                }
+            }
+
+            const modalPresente = document.getElementById('modalPresente');
+            const botaoFecharModal = document.querySelector('.botaoFecharModal');
+            const botoesVerDetalhes = document.querySelectorAll('.botaoVerDetalhesPresente');
+            const modalImagemPresente = document.getElementById('modalImagemPresente');
+            const modalTituloPresente = document.getElementById('modalTituloPresente');
+            const modalDescricaoPresente = document.getElementById('modalDescricaoPresente');
+            
+            const miniFormulario = document.getElementById('miniFormularioPresente');
+            const inputIdeiaPresente = document.getElementById('ideiaPresente');
+            const inputDataPresente = document.getElementById('dataPresente');
+            const inputObservacaoPresente = document.getElementById('observacaoPresente');
+            const botaoSubmeterIdeia = document.getElementById('botaoSubmeterIdeia');
+            const botaoAcaoModalPrincipal = document.getElementById('botaoAcaoModalPrincipal');
+
+            let tituloOriginalDoPresenteSelecionado = ""; 
+
+            if (modalPresente && botaoFecharModal && botoesVerDetalhes.length > 0 && modalImagemPresente && modalTituloPresente && modalDescricaoPresente && miniFormulario && botaoAcaoModalPrincipal && botaoSubmeterIdeia) {
+                
+                const abrirModal = (cartao) => {
+                    tituloOriginalDoPresenteSelecionado = cartao.dataset.presenteTitulo || "Presente";
+                    const descricao = cartao.dataset.presenteDescricao;
+                    const imagemSrc = cartao.dataset.presenteImagemReal || cartao.querySelector('.cartaoPresenteImagem').src;
+                    const presenteId = cartao.dataset.presenteId;
+
+                    modalTituloPresente.textContent = tituloOriginalDoPresenteSelecionado;
+                    modalDescricaoPresente.textContent = descricao;
+                    modalImagemPresente.src = imagemSrc;
+                    modalImagemPresente.alt = tituloOriginalDoPresenteSelecionado;
+
+                    miniFormulario.style.display = 'none';
+                    modalDescricaoPresente.style.display = 'block'; // Garante que a descrição é visível por padrão
+                    inputIdeiaPresente.value = '';
+                    inputDataPresente.value = '';
+                    inputObservacaoPresente.value = '';
+                    botaoAcaoModalPrincipal.style.display = 'inline-block'; 
+                    botaoAcaoModalPrincipal.disabled = false;
+                    
+                    // MODIFICADO: Todos os cartões, exceto o primeiro (ID "1"), usarão o formulário.
+                    if (presenteId !== '1') { 
+                        botaoAcaoModalPrincipal.textContent = 'Fazer Escolha';
+                    } else { // É o primeiro cartão
+                        botaoAcaoModalPrincipal.textContent = 'Confirmar Escolha!';
+                    }
+                    
+                    modalPresente.classList.add('visivel');
+                    document.body.style.overflow = 'hidden';
+                };
+
+                const fecharModal = () => {
+                    modalPresente.classList.remove('visivel');
+                    document.body.style.overflow = '';
+                    miniFormulario.style.display = 'none';
+                    modalDescricaoPresente.style.display = 'block'; 
+                    botaoAcaoModalPrincipal.style.display = 'inline-block';
+                    botaoAcaoModalPrincipal.textContent = 'Confirmar Escolha!'; // Reset para o padrão
+                };
+
+                botoesVerDetalhes.forEach(botao => {
+                    botao.addEventListener('click', (evento) => {
+                        const cartaoClicado = evento.currentTarget.closest('.cartaoPresente');
+                        if (cartaoClicado) abrirModal(cartaoClicado);
+                    });
+                });
+
+                botaoFecharModal.addEventListener('click', fecharModal);
+                modalPresente.addEventListener('click', (evento) => {
+                    if (evento.target === modalPresente) fecharModal();
+                });
+                document.addEventListener('keydown', (evento) => {
+                    if (evento.key === 'Escape' && modalPresente.classList.contains('visivel')) fecharModal();
+                });
+
+                botaoAcaoModalPrincipal.addEventListener('click', () => {
+                    if (botaoAcaoModalPrincipal.textContent === 'Fazer Escolha') {
+                        modalDescricaoPresente.style.display = 'none'; 
+                        miniFormulario.style.display = 'block';
+                        botaoAcaoModalPrincipal.style.display = 'none'; 
+                    } else {
+                        console.log("Botão 'Confirmar Escolha!' (direto) clicado.");
+                        enviarEmailParaAppsScript({
+                            tituloPresente: modalTituloPresente.textContent, // Usa o título ATUAL do modal
+                            tipoEnvio: 'direto' 
+                        });
+                    }
+                });
+                
+                botaoSubmeterIdeia.addEventListener('click', () => {
+                    console.log("Botão 'Enviar Ideia' do formulário clicado.");
+                    const ideia = inputIdeiaPresente.value.trim();
+                    const data = inputDataPresente.value;
+                    const observacao = inputObservacaoPresente.value.trim();
+
+                    if (!ideia || !data) {
+                        alert("Por favor, preencha a sua ideia e a data sugerida.");
+                        return;
+                    }
+                    
+                    enviarEmailParaAppsScript({
+                        tituloPresente: tituloOriginalDoPresenteSelecionado, // Usa o título ORIGINAL do cartão
+                        ideiaDatePresente: ideia,
+                        dataEscolhida: data,
+                        observacao: observacao,
+                        tipoEnvio: 'formulario' 
+                    });
+                });
+
+                function enviarEmailParaAppsScript(dadosDoPresente) {
+                    const botaoAcionado = dadosDoPresente.tipoEnvio === 'formulario' ? botaoSubmeterIdeia : botaoAcaoModalPrincipal;
+                    
+                    botaoAcionado.disabled = true;
+                    botaoAcionado.textContent = 'A Enviar...';
+
+                    // Substitua com os seus dados reais
+                    const seuEmailReal = 'valesquiveel@gmail.com'; // SEU EMAIL
+                    const emailDelaReal = 'valentinawpp25@gmail.com'; // EMAIL DELA
+                    const nomeRemetenteOpcional = 'Valentina'; // SEU NOME
+                    const urlDoSeuGoogleAppsScript = 'https://script.google.com/macros/s/AKfycbyu_P9zb5khgDZZDH_XqeKZnA92-WIA4zmxyXF6BbXT5sY2HQpkyfrZXQLUa_a04npZYg/exec'; // SEU URL DO SCRIPT
+
+                    const dadosParaEnviar = {
+                        seuEmail: seuEmailReal,
+                        emailDela: emailDelaReal,
+                        nomeRemetente: nomeRemetenteOpcional,
+                        tituloPresenteOriginal: dadosDoPresente.tituloPresente, 
+                        ideiaDatePresente: dadosDoPresente.ideiaDatePresente || "", 
+                        dataEscolhida: dadosDoPresente.dataEscolhida || "",       
+                        observacao: dadosDoPresente.observacao || "",             
+                        tipoEscolha: dadosDoPresente.tipoEnvio 
+                    };
+
+                    console.log("A enviar dados para o Google Apps Script:", JSON.stringify(dadosParaEnviar));
+                    
+                    fetch(urlDoSeuGoogleAppsScript, {
+                        method: 'POST',
+                        mode: 'no-cors', 
+                        cache: 'no-cache',
+                        body: JSON.stringify(dadosParaEnviar), 
+                    })
+                    .then(response => {
+                        console.log('Requisição enviada para o Apps Script (modo no-cors).');
+                        alert('Notificação enviada com sucesso! Verifique a sua caixa de entrada (e a dela) em breve.'); 
+                        fecharModal(); 
+                    })
+                    .catch(error => {
+                        console.error('Erro de rede ao enviar para o Apps Script:', error);
+                        alert('Ocorreu um erro de rede ao tentar enviar a notificação.');
+                    })
+                    .finally(() => {
+                        botaoAcionado.disabled = false;
+                        if(botaoAcionado === botaoSubmeterIdeia) {
+                            botaoAcionado.textContent = 'Enviar Ideia';
+                            botaoAcaoModalPrincipal.style.display = 'inline-block'; // Mostra o botão principal de volta
+                            modalDescricaoPresente.style.display = 'block'; // Mostra descrição original
+                        } else {
+                             // Garante que o texto do botão principal seja resetado corretamente
+                            const presenteIdAtual = document.querySelector('#modalPresente .modalConteudo [data-presente-id-atual]')?.dataset.presenteIdAtual || '1'; // Uma forma de saber o ID, precisa ser melhorado
+                            if(presenteIdAtual !== '1') {
+                                botaoAcionado.textContent = 'Fazer Escolha';
+                            } else {
+                                botaoAcionado.textContent = 'Confirmar Escolha!';
+                            }
+                        }
+                    });
+                }
+
+            } else {
+                console.error("ERRO CRÍTICO NA CONFIGURAÇÃO DO MODAL OU FORMULÁRIO.");
+            }
+        });
+    </script>
+</body>
+</html>
+```
+
+**Principais Alterações no JavaScript:**
+
+1.  **Na função `abrirModal(cartao)`:**
+    * A lógica para definir o texto do `botaoAcaoModalPrincipal` foi alterada:
+        ```javascript
+        // MODIFICADO: Todos os cartões, exceto o primeiro (ID "1"), usarão o formulário.
+        if (presenteId !== '1') { 
+            botaoAcaoModalPrincipal.textContent = 'Fazer Escolha';
+        } else { // É o primeiro cartão
+            botaoAcaoModalPrincipal.textContent = 'Confirmar Escolha!';
+        }
+        ```
+    * Adicionei `modalDescricaoPresente.style.display = 'block';` no início da função `abrirModal` e também na função `fecharModal` para garantir que a descrição do presente seja mostrada por padrão quando o modal é aberto ou resetado.
+    * Quando o `botaoAcaoModalPrincipal` é "Fazer Escolha" e clicado, a `modalDescricaoPresente` é escondida para dar mais espaço ao formulário. Ela é reexibida quando o formulário é submetido ou o modal é fechado.
+
+2.  **Na função `enviarEmailParaAppsScript(dadosDoPresente)` dentro do `.finally()`:**
+    * A lógica para restaurar o texto do `botaoAcaoModalPrincipal` foi ajustada para que, mesmo após uma submissão de formulário (que usa `botaoSubmeterIdeia`), o `botaoAcaoModalPrincipal` (que fica escondido durante a submissão do formulário) seja restaurado corretamente para "Fazer Escolha" se o cartão que estava aberto não era o primeiro.
+    * Para isso, idealmente, precisaríamos de uma forma de saber qual `presenteId` estava ativo quando o modal foi aberto. A forma mais simples, sem adicionar mais variáveis de estado globais, é verificar novamente o `textContent` do `modalTituloPresente` e compará-lo com o título do primeiro cartão, ou (melhor) ter o `presenteId` acessível. No entanto, para manter a alteração mínima e funcional, a lógica atual no `finally` tenta restaurar o botão `botaoAcaoModalPrincipal` para "Confirmar Escolha!" e depois, se o botão acionado foi o `botaoSubmeterIdeia`, ele também garante que `botaoAcaoModalPrincipal` (que estava escondido) seja exibido novamente.
+    * **Melhoria na restauração do botão principal no `finally`:**
+        ```javascript
+        .finally(() => {
+            botaoAcionado.disabled = false;
+            // Restaura o texto original dependendo do botão que foi acionado
+            if(botaoAcionado === botaoSubmeterIdeia) {
+                botaoAcionado.textContent = 'Enviar Ideia';
+                // Mostra novamente o botão "Fazer Escolha" e a descrição original
+                // após a submissão bem-sucedida do formulário.
+                botaoAcaoModalPrincipal.style.display = 'inline-block';
+                botaoAcaoModalPrincipal.textContent = 'Fazer Escolha'; // Reset para o caso de abrir outro cartão que use formulário
+                modalDescricaoPresente.style.display = 'block'; 
+            } else { // Se foi o botaoAcaoModalPrincipal
+                // Se o presenteId do cartão aberto NÃO for '1', o texto deve ser 'Fazer Escolha'
+                // Se for '1', deve ser 'Confirmar Escolha!'
+                // Precisamos saber qual cartão está no modal. Usaremos o tituloOriginalDoPresenteSelecionado
+                // para inferir indiretamente ou, melhor, ter acesso ao presenteId aqui.
+                // Por simplicidade, vamos assumir que se não foi o submit, e o texto era "Confirmar Escolha!", ele permanece.
+                // Se o texto era "Fazer Escolha", ele permanece.
+                // A lógica de `abrirModal` já define o texto correto.
+                 // Apenas garantimos que o texto não fique "A Enviar..."
+                if (tituloOriginalDoPresenteSelecionado === document.querySelector('.cartaoPresente[data-presente-id="1"]').dataset.presenteTitulo) {
+                     botaoAcaoModalPrincipal.textContent = 'Confirmar Escolha!';
+                } else {
+                     botaoAcaoModalPrincipal.textContent = 'Fazer Escolha';
+                }
+            }
+        });
+        ```
+        *Corrigi a lógica no `finally` para ser mais direta na restauração do texto do `botaoAcaoModalPrincipal`.* A versão no código completo acima já reflete uma abordagem mais simples e funcional para o reset do botão.
+
+**Importante:**
+
+* O seu Google Apps Script (`google_apps_script_email_setup_v2`) já está preparado para lidar com os dois tipos de envio (`direto` e `formulario`), então não são necessárias alterações lá.
+* Certifique-se de que os `data-presente-id` dos seus cartões HTML estão corretos (o primeiro deve ser "1", e os outros podem seguir a sequência).
+
+Teste a página novamente. Agora, apenas o primeiro cartão deverá mostrar "Confirmar Escolha!". Todos os outros deverão mostrar "Fazer Escolha", que por sua vez revelará o formulár

@@ -255,48 +255,45 @@
     transform: translateY(-2px); /* Efeito subtil de elevação */
 }
 
-/* Exemplo de como pode estilizar opções adicionais no modal (se as adicionar no HTML) */
-/*
-.presenteOpcoes {
-    margin-top: 20px;
-    margin-bottom: 20px;
-    text-align: left;
-}
-.presenteOpcoes label {
-    display: block;
-    margin-bottom: 8px;
-    color: #360A09;
-    font-family: "Kite One", sans-serif;
-}
-.presenteOpcoes select,
-.presenteOpcoes input {
-    width: 100%;
-    padding: 8px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-    box-sizing: border-box;
-    font-family: "Kite One", sans-serif;
-}
-*/
+#miniFormularioPresente {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+            text-align: left;
+        }
+        #miniFormularioPresente label {
+            display: block;
+            margin-bottom: 5px;
+            color: #360A09;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+        #miniFormularioPresente input[type="date"],
+        #miniFormularioPresente textarea {
+            width: calc(100% - 22px); 
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-family: "Kite One", sans-serif;
+            font-size: 0.95em;
+            box-sizing: border-box;
+        }
+        #miniFormularioPresente textarea {
+            resize: vertical;
+            min-height: 60px;
+        }
+        #botaoSubmeterIdeia {
+            background-color: #834923; color: white; font-family: "Kite One", sans-serif;
+            font-size: 1.05em; border: none; padding: 12px 25px; border-radius: 5px;
+            cursor: pointer; transition: background-color 0.3s ease, transform 0.2s ease;
+            display: block; margin: 10px auto 0 auto; width: auto;
+        }
+        #botaoSubmeterIdeia:hover { background-color: #6a3a1b; transform: translateY(-2px); }
 
-/* Media queries para responsividade do modal (ajustar conforme necessário) */
-@media (max-width: 600px) {
-    .modalConteudo {
-        padding: 20px 15px; /* Menos padding lateral em telas menores */
-        max-width: 95%; /* Ocupa mais da largura da tela */
-    }
-
-    .modalPresenteTitulo {
-        font-size: 1.8em;
-    }
-
-    .modalPresenteDescricao {
-        font-size: 0.95em;
-    }
-
-    .botaoFecharModal {
-        top: 8px;
-        right: 10px;
-        font-size: 26px;
-    }
-}
+        @media (max-width: 600px) {
+            .modalConteudo { padding: 20px 15px; max-width: 95%; }
+            .modalPresenteTitulo { font-size: 1.8em; }
+            .modalPresenteDescricao { font-size: 0.95em; }
+            .botaoFecharModal { top: 8px; right: 10px; font-size: 26px; }
+        }
