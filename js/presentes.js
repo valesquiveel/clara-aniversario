@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const inputObservacaoPresente = document.getElementById('observacaoPresente');
     const botaoSubmeterIdeia = document.getElementById('botaoSubmeterIdeia');
     const botaoAcaoModalPrincipal = document.getElementById('botaoAcaoModalPrincipal');
-    const imgNossaFoto = document.querySelector('.modalPresenteImagem');
+    const imgNossaFoto = document.getElementById('modalImagemPresente');
 
     let tituloOriginalDoPresenteSelecionado = "";
 
