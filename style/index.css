@@ -164,7 +164,7 @@
 
         #folhaMensagem {
             position: absolute;
-            top: 0; /* Will slide from here */
+            top: 10; /* Will slide from here */
             left: 50%;
             transform: translateX(-50%) translateY(15px); /* Initial position inside envelope */
             width: 90%;
