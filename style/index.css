@@ -190,7 +190,7 @@
             align-items: center;
             justify-content: flex-start; 
             overflow-y: auto; 
-            cursor: default; /* Cursor padrão inicialmente */
+            cursor: pointer; /* Cursor padrão inicialmente */
         }
         #folhaMensagem.visivel {
             opacity: 1; 
