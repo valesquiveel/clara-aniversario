@@ -97,9 +97,9 @@
 
         #cartaContainer {
             position: relative;
-            width: 440px; 
-            height: 340px; 
-            perspective: 1940px; 
+            width: 340px; 
+            height: 240px; 
+            perspective: 1840px; 
             opacity: 0; 
             transform: scale(0.7) translateY(30px) rotateX(10deg) rotateY(-15deg);
             transform-style: preserve-3d; 
@@ -144,7 +144,7 @@
         .envelope-aba-superior { 
             position: absolute;
             width: 100%;
-            height: 255px; 
+            height: 155px; 
             top: 0; 
             left: 0;
             background-color: #E0E0E0; 
@@ -166,7 +166,7 @@
             left: 50%;
             transform: translateX(-50%) translateY(15px); 
             width: 90%; 
-            height: 420px; 
+            height: 220px; 
             background-color: #fdfaf0; 
             border: 1px solid #e0dacd;
             border-radius: 3px;
