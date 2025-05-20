@@ -134,12 +134,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         botaoAcaoModalPrincipal.addEventListener('click', () => {
-            if (botaoAcaoModalPrincipal.textContent === 'Fazer Escolha') {
+            if (botaoAcaoModalPrincipal.textContent === 'Criar!') {
                 modalDescricaoPresente.style.display = 'none';
                 miniFormulario.style.display = 'block';
                 botaoAcaoModalPrincipal.style.display = 'none';
             } else {
-                console.log("Botão 'Confirmar Escolha!' (direto) clicado.");
+                console.log("Botão 'Confirmar!' (direto) clicado.");
                 enviarEmailParaAppsScript({
                     tituloPresente: modalTituloPresente.textContent, // Usa o título ATUAL do modal
                     tipoEnvio: 'direto'
@@ -175,9 +175,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Substitua com os seus dados reais
             const seuEmailReal = 'valentinawpp25@gmail.com'; // SEU EMAIL
-            const emailDelaReal = 'qpanaclara@gmail.com'; // EMAIL DELA
+            const emailDelaReal = 'valenesquiveel@gmail.com'; // EMAIL DELA
             const nomeRemetenteOpcional = 'Valentina'; // SEU NOME
-            const urlDoSeuGoogleAppsScript = 'https://script.google.com/macros/s/AKfycbyj7NYa4WFBUojMWbSH1BlIv7dtCeq_JwjX4Gn2XSUVdeC2Q2z66pAdeeM4L5-3LnqzaQ/exec'; // SEU URL DO SCRIPT
+            const urlDoSeuGoogleAppsScript = 'https://script.google.com/macros/s/AKfycbyYBempnhUS2WO_chmqNZR4WC8jBiwdJ90u9NW-VR0iqiC0akrwgIbUmIlEACC0tDvCZA/exec'; // SEU URL DO SCRIPT
 
             const dadosParaEnviar = {
                 seuEmail: seuEmailReal,
