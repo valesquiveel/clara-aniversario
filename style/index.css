@@ -97,112 +97,104 @@
 
         #cartaContainer {
             position: relative;
-            width: 450px; 
-            height: 300px; 
-            perspective: 2000px; 
+            width: 440px; 
+            height: 340px; 
+            perspective: 1940px; 
             opacity: 0; 
             transform: scale(0.7) translateY(30px) rotateX(10deg) rotateY(-15deg);
             transform-style: preserve-3d; 
         }
         
-        .envelope-base {
+        .envelope-base { 
             position: absolute;
             width: 100%;
             height: 100%;
-            background-color: #B08D57;
+            background-color: #B08D57; 
             border-radius: 4px;
             box-shadow: 0 3px 7px rgba(0,0,0,0.25);
             z-index: 1; /* Base do envelope */
-            overflow: hidden; /* JS will change to visible when flap opens */
+            overflow: hidden; /* Mantido hidden inicialmente, JS mudará para visible */
         }
-
-        .abas-internas-decorativas {
+        
+        .abas-internas-decorativas { 
             position: absolute;
             width: 100%;
             height: 100%;
             top:0; left:0;
-            z-index: 3; /* Abas internas acima da folha, abaixo da aba superior */
-            pointer-events: none; /* Prevent interaction with flaps */
+            z-index: 3; /* AJUSTE: Abas internas acima da folha */
         }
-        .aba-interna {
+        .aba-interna { 
             position: absolute;
-            background-color: #A07C4E;
+            background-color: #A07C4E; 
         }
         .aba-interna.esquerda {
-            left: 0; top: 0; width: 50%; height: 100%; /* Adjusted width for new card size */
+            left: 0; top: 0; width: 160px; height: 100%; 
             clip-path: polygon(0% 0%, 100% 15%, 100% 85%, 0% 100%);
         }
         .aba-interna.direita {
-            right: 0; top: 0; width: 50%; height: 100%; /* Adjusted width */
+            right: 0; top: 0; width: 160px; height: 100%;
             clip-path: polygon(100% 0%, 0% 15%, 0% 85%, 100% 100%);
         }
-        .aba-interna.inferior {
+        .aba-interna.inferior { 
             bottom:0; left:0;
-            width:100%; height: 65%; /* Adjusted height */
-            clip-path: polygon(10% 100%, 50% 0%, 90% 100%);
+            width:100%; height: 130px; 
+            clip-path: polygon(10% 100%, 50% 0%, 90% 100%); 
         }
-
-        .envelope-aba-superior {
+        
+        .envelope-aba-superior { 
             position: absolute;
             width: 100%;
-            height: 60%; /* Adjusted height */
-            top: 0;
+            height: 255px; 
+            top: 0; 
             left: 0;
-            background-color: #E0E0E0; /* Lighter flap color */
-            transform-origin: top center;
-            transition: transform 1.0s ease-in-out, z-index 0s linear 1.0s;
+            background-color: #E0E0E0; 
+            transform-origin: top center; 
+            transition: transform 1.0s ease-in-out, z-index 0s linear 1.0s; 
             z-index: 4; /* Acima de tudo inicialmente */
-            clip-path: polygon(0% 0%, 100% 0%, 50% 98%);
-            border-bottom: 1px solid #c0c0c0;
+            clip-path: polygon(0% 0%, 100% 0%, 50% 98%); 
+            border-bottom: 1px solid #c0c0c0; 
             box-shadow: 0 -1px 2px rgba(0,0,0,0.05) inset;
-            cursor: pointer; /* Indicate it's clickable */
         }
         .envelope-aba-superior.aberta {
-            transform: rotateX(170deg) translateZ(-5px);
+            transform: rotateX(170deg) translateZ(-5px); 
             z-index: 0; /* Aba vai para trás de tudo quando aberta */
         }
-
+        
         #folhaMensagem {
             position: absolute;
-            top: 10; /* Will slide from here */
+            top: 0; 
             left: 50%;
-            transform: translateX(-50%) translateY(15px); /* Initial position inside envelope */
-            width: 90%;
-            max-width: 380px; /* Max width for readability on larger card */
-            height: 220px; /* Fixed height */
-            background-color: #fdfaf0;
+            transform: translateX(-50%) translateY(15px); 
+            width: 90%; 
+            height: 420px; 
+            background-color: #fdfaf0; 
             border: 1px solid #e0dacd;
             border-radius: 3px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.15);
-            padding: 15px;
+            padding: 12px;
             box-sizing: border-box;
-            opacity: 0; /* Initially hidden */
-            color: #4a3b31;
+            opacity: 0; 
+            color: #4a3b31; 
             font-family: "Architects Daughter", cursive;
-            z-index: 2; /* Abaixo das abas internas decorativas, acima da base */
-            transition: opacity 0.4s ease-out 0.5s, /* Delay opacity transition */
-                        transform 1.2s cubic-bezier(0.22, 0.61, 0.36, 1) 0.5s; /* Delay transform, longer duration */
-            display: flex; /* For centering content if needed */
-            flex-direction: column;
-            align-items: center;
-            justify-content: center; /* Center text vertically */
+            z-index: 2; /* AJUSTE: Folha abaixo das abas internas, acima da base */
+            transition: opacity 0.4s ease-out,
+                        transform 1.5s cubic-bezier(0.22, 0.61, 0.36, 1) 0.3s;
         }
         #folhaMensagem.visivel {
-            opacity: 1;
-            transform: translateX(-50%) translateY(-100px); /* Slides up further */
+            opacity: 1; 
+            transform: translateX(-50%) translateY(-175px); 
         }
 
         #folhaMensagem h1 {
-            font-size: clamp(22px, 4vw, 28px); /* Adjusted font size */
-            margin: 0 0 10px 0;
-            color: #7a5c43;
+            font-size: 1.1em; 
+            margin: 0 0 6px 0;
+            color: #7a5c43; 
             text-align: center;
         }
         #folhaMensagem p {
-            font-size: clamp(16px, 3vw, 20px); /* Adjusted font size */
-            line-height: 1.5;
-            margin: 0 0 10px 0;
-            text-align: center;
+            font-size: 0.88em; 
+            line-height: 1.4;
+            margin: 0 0 6px 0;
         }
 
         /* --- Animações (Keyframes) --- */
