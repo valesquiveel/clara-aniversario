@@ -62,6 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const inputObservacaoPresente = document.getElementById('observacaoPresente');
     const botaoSubmeterIdeia = document.getElementById('botaoSubmeterIdeia');
     const botaoAcaoModalPrincipal = document.getElementById('botaoAcaoModalPrincipal');
+    const imgNossaFoto = document.getElementsByClassName('cartaoPresenteImagem');
 
     let tituloOriginalDoPresenteSelecionado = "";
 
@@ -138,6 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 modalDescricaoPresente.style.display = 'none';
                 miniFormulario.style.display = 'block';
                 botaoAcaoModalPrincipal.style.display = 'none';
+                imgNossaFoto.style.display = 'none';
             } else {
                 console.log("Botão 'Confirmar!' (direto) clicado.");
                 enviarEmailParaAppsScript({
