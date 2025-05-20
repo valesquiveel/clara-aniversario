@@ -85,133 +85,118 @@
 
         /* --- Conteúdo Final (Carta Animada CSS/JS) --- */
         #conteudoFinal {
-    width: 100%;
-    height: 100%;
-    display: none;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-    top: 0;
-    left: 0;
-}
+            width: 100%;
+            height: 100%;
+            display: none; 
+            justify-content: center;
+            align-items: center;
+            position: absolute; 
+            top: 0;
+            left: 0;
+        }
 
-#cartaContainer {
-    position: relative;
-    width: 360px;
-    height: 260px;
-    perspective: 1860px;
-    opacity: 0;
-    transform: scale(0.7) translateY(30px) rotateX(10deg) rotateY(-15deg);
-    transform-style: preserve-3d;
-}
+        #cartaContainer {
+            position: relative;
+            width: 360px; 
+            height: 260px; 
+            perspective: 1860px; 
+            opacity: 0; 
+            transform: scale(0.7) translateY(30px) rotateX(10deg) rotateY(-15deg);
+            transform-style: preserve-3d; 
+        }
+        
+        .envelope-base { 
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: #B08D57; 
+            border-radius: 4px;
+            box-shadow: 0 3px 7px rgba(0,0,0,0.25);
+            z-index: 1; /* Base do envelope */
+            top: 35%;
+            overflow: hidden; /* Mantido hidden inicialmente, JS mudará para visible */
+        }
+        
+        .abas-internas-decorativas { 
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0; left:0;
+            z-index: 3; /* AJUSTE: Abas internas acima da folha */
+        }
+        .aba-interna { 
+            position: absolute;
+            background-color: #A07C4E; 
+        }
+        .aba-interna.esquerda {
+            left: 0; top: 0; width: 180px; height: 100%; 
+            clip-path: polygon(0% 0%, 100% 15%, 100% 85%, 0% 100%);
+        }
+        .aba-interna.direita {
+            right: 0; top: 0; width: 180px; height: 100%;
+            clip-path: polygon(100% 0%, 0% 15%, 0% 85%, 100% 100%);
+        }
+        .aba-interna.inferior { 
+            bottom:0; left:0;
+            width:100%; height: 150px; 
+            clip-path: polygon(10% 100%, 50% 0%, 90% 100%); 
+        }
+        
+        .envelope-aba-superior { 
+            position: absolute;
+            width: 100%;
+            height: 175px; 
+            top: 35%; 
+            left: 0;
+            background-color: #E0E0E0; 
+            transform-origin: top center; 
+            transition: transform 1.0s ease-in-out, z-index 0s linear 1.0s; 
+            z-index: 4; /* Acima de tudo inicialmente */
+            clip-path: polygon(0% 0%, 100% 0%, 50% 98%); 
+            border-bottom: 1px solid #c0c0c0; 
+            box-shadow: 0 -1px 2px rgba(0,0,0,0.05) inset;
+            cursor: pointer;
+        }
+        .envelope-aba-superior.aberta {
+            transform: rotateX(170deg) translateZ(-5px); 
+            z-index: 0; /* Aba vai para trás de tudo quando aberta */
+        }
+        
+        #folhaMensagem {
+            position: absolute;
+            top: 0; 
+            left: 50%;
+            transform: translateX(-50%) translateY(15px); 
+            width: 90%;  
+            background-color: #fdfaf0; 
+            border: 1px solid #e0dacd;
+            border-radius: 3px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+            padding: 12px;
+            box-sizing: border-box;
+            opacity: 0; 
+            color: #4a3b31; 
+            font-family: "Architects Daughter", cursive;
+            z-index: 2; /* AJUSTE: Folha abaixo das abas internas, acima da base */
+            transition: opacity 0.4s ease-out,
+                        transform 1.5s cubic-bezier(0.22, 0.61, 0.36, 1) 0.3s;
+        }
+        #folhaMensagem.visivel {
+            opacity: 1; 
+            transform: translateX(-50%) translateY(-275px); 
+        }
 
-.envelope-base {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-color: #B08D57;
-    border-radius: 4px;
-    box-shadow: 0 3px 7px rgba(0,0,0,0.25);
-    z-index: 1; /* Base do envelope */
-    top: 35%;   /* MANTENDO O SEU top: 35% ORIGINAL */
-    overflow: hidden; /* JS mudará para visible quando necessário */
-}
-
-.abas-internas-decorativas {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0; left:0;
-    z-index: 3;
-}
-.aba-interna {
-    position: absolute;
-    background-color: #A07C4E;
-}
-.aba-interna.esquerda {
-    left: 0; top: 0; width: 180px; height: 100%;
-    clip-path: polygon(0% 0%, 100% 15%, 100% 85%, 0% 100%);
-}
-.aba-interna.direita {
-    right: 0; top: 0; width: 180px; height: 100%;
-    clip-path: polygon(100% 0%, 0% 15%, 0% 85%, 100% 100%);
-}
-.aba-interna.inferior {
-    bottom:0; left:0;
-    width:100%; height: 150px;
-    clip-path: polygon(10% 100%, 50% 0%, 90% 100%);
-}
-
-.envelope-aba-superior {
-    position: absolute;
-    width: 100%;
-    height: 175px;
-    top: 35%;   /* MANTENDO O SEU top: 35% ORIGINAL */
-    left: 0;
-    background-color: #E0E0E0; /* Cor da aba superior original #B08D57, mas o seu CSS tinha #E0E0E0 */
-    transform-origin: top center;
-    transition: transform 1.0s ease-in-out, z-index 0s linear 1.0s;
-    z-index: 4; /* Acima de tudo inicialmente */
-    clip-path: polygon(0% 0%, 100% 0%, 50% 98%);
-    border-bottom: 1px solid #c0c0c0;
-    box-shadow: 0 -1px 2px rgba(0,0,0,0.05) inset;
-    cursor: pointer;
-}
-.envelope-aba-superior.aberta {
-    transform: rotateX(170deg) translateZ(-5px);
-    z-index: 0; /* Aba vai para trás de tudo quando aberta */
-}
-
-#folhaMensagem {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%) translateY(15px);
-    width: 90%;
-    height: calc(100% - 30px);
-    max-height: 220px;
-    background-color: #fdfaf0;
-    border: 1px solid #e0dacd;
-    border-radius: 3px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
-    padding: 15px;
-    box-sizing: border-box;
-    opacity: 0;
-    color: #4a3b31;
-    font-family: "Architects Daughter", cursive;
-    z-index: 3; /* Acima das abas internas, abaixo da aba superior fechada */
-    transition: transform 1.5s cubic-bezier(0.22, 0.61, 0.36, 1) 0.3s,
-                z-index 0s linear 0.3s, /* z-index não é animado na saida */
-                opacity 0.4s ease-out;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    /* overflow-y: auto; */ /* REMOVIDO */
-    overflow-y: hidden;   /* ALTERAÇÃO: Impede a barra de rolagem */
-    cursor: pointer; /* Cursor padrão inicialmente, mudará com .peek */
-}
-#folhaMensagem.visivel {
-    opacity: 1;
-    transform: translateX(-50%) translateY(-275px); /* Faz a folha sair para cima */
-}
-
-#folhaMensagem.peek {
-    opacity: 1; /* Torna a folha "espiando" */
-    cursor: pointer; /* Torna clicável ao espiar */
-}
-
-#folhaMensagem h1 {
-    font-size: 1.1em;
-    margin: 0 0 6px 0;
-    color: #7a5c43;
-    text-align: center;
-}
-#folhaMensagem p {
-    font-size: 0.88em;
-    line-height: 1.4;
-    margin: 0 0 6px 0;
-}
+        #folhaMensagem h1 {
+            font-size: 1.1em; 
+            margin: 0 0 6px 0;
+            color: #7a5c43; 
+            text-align: center;
+        }
+        #folhaMensagem p {
+            font-size: 0.88em; 
+            line-height: 1.4;
+            margin: 0 0 6px 0;
+        }
 
          #botaoCartaContainer {
             position: absolute;
