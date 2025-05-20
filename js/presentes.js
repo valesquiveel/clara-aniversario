@@ -201,7 +201,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const seuEmailReal = 'valentinawpp25@gmail.com'; 
                     const emailDelaReal = 'valesquiveel@gmail.com'; 
                     const nomeRemetenteOpcional = 'Valentina'; 
-                    const urlDoSeuGoogleAppsScript = 'https://script.google.com/macros/s/AKfycbyYBempnhUS2WO_chmqNZR4WC8jBiwdJ90u9NW-VR0iqiC0akrwgIbUmIlEACC0tDvCZA/exec';
+                    const urlDoSeuGoogleAppsScript = 'https://script.google.com/macros/s/AKfycbzBoy_vW-f3dAYYHr-MRKHTAUAiKay5ig9FWc_hHF7AWqls4FxsuqPQvofb4JAjfEGzQw/exec';
 
                     const dadosParaEnviar = {
                         seuEmail: seuEmailReal,
@@ -227,7 +227,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     })
                     .then(response => {
                         console.log('Requisição enviada para o Apps Script (modo no-cors).');
-                        alert('Notificação enviada com sucesso! Verifique a sua caixa de entrada (e a dela) em breve.'); 
+                        alert('Notificação enviada com sucesso! Verifique a sua caixa de entrada.'); 
                         fecharModal(); 
                     })
                     .catch(error => {
