@@ -97,9 +97,9 @@
 
         #cartaContainer {
             position: relative;
-            width: 340px; 
-            height: 240px; 
-            perspective: 1840px; 
+            width: 360px; 
+            height: 260px; 
+            perspective: 1860px; 
             opacity: 0; 
             transform: scale(0.7) translateY(30px) rotateX(10deg) rotateY(-15deg);
             transform-style: preserve-3d; 
@@ -129,24 +129,24 @@
             background-color: #A07C4E; 
         }
         .aba-interna.esquerda {
-            left: 0; top: 0; width: 160px; height: 100%; 
+            left: 0; top: 0; width: 180px; height: 100%; 
             clip-path: polygon(0% 0%, 100% 15%, 100% 85%, 0% 100%);
         }
         .aba-interna.direita {
-            right: 0; top: 0; width: 160px; height: 100%;
+            right: 0; top: 0; width: 180px; height: 100%;
             clip-path: polygon(100% 0%, 0% 15%, 0% 85%, 100% 100%);
         }
         .aba-interna.inferior { 
             bottom:0; left:0;
-            width:100%; height: 130px; 
+            width:100%; height: 150px; 
             clip-path: polygon(10% 100%, 50% 0%, 90% 100%); 
         }
         
         .envelope-aba-superior { 
             position: absolute;
             width: 100%;
-            height: 155px; 
-            top: 0; 
+            height: 175px; 
+            top: 35%; 
             left: 0;
             background-color: #E0E0E0; 
             transform-origin: top center; 
