@@ -197,6 +197,39 @@
             margin: 0 0 6px 0;
         }
 
+         #botaoCartaContainer {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 15; /* Botão sempre no topo */
+            opacity: 0;
+            display: none;
+            transition: opacity 0.5s ease-in-out 0.5s;
+        }
+
+        #botaoAcaoCarta {
+            width: 60px;
+            height: 60px;
+            background-image: url("https://placehold.co/60x60/FFD700/000000?text=S3");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            transition: background-image 0.3s ease, transform 0.2s ease;
+            border-radius: 50%;
+        }
+
+        #botaoAcaoCarta:hover {
+            background-image: url('https://placehold.co/60x60/FFA000/000000?text=S3H');
+            transform: scale(1.1) translateX(-50%);
+        }
+         #botaoAcaoCarta:active {
+            transform: scale(0.95) translateX(-50%);
+        }
+
         /* --- Animações (Keyframes) --- */
         @keyframes sumirElementosIniciais {
             from { opacity: 1; transform: scale(1); }
@@ -210,11 +243,16 @@
             from { opacity: 0; transform: scale(0.7) translateY(40px) rotateX(20deg) rotateY(-20deg); }
             to { opacity: 1; transform: scale(1) translateY(0px) rotateX(0deg) rotateY(0deg); }
         }
+        @keyframes simpleFadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
     
         /* --- Classes de Animação --- */
         .animacao-sumir-elementos { animation: sumirElementosIniciais 0.7s forwards; }
         .animacao-desaparecer-rectfa { animation: desaparecerRectFA 1s forwards 0.3s; } 
-        .animacao-aparecer-carta { animation: aparecerCartaContainer 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.2s forwards; } 
+        .animacao-aparecer-carta { animation: aparecerCartaContainer 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.2s forwards; }
+        .animacao-desaparecer-carta { animation: simpleFadeOut 1s forwards; } 
 
 /* Botão 2 (Próxima Página), agora dentro de #imgCartaAberta */
 #botao2 {
