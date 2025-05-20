@@ -8,7 +8,6 @@ document.addEventListener('DOMContentLoaded', () => {
             
             let idDoPresenteNoModalAtual = null; 
 
-
             if (trilhaCarrossel) {
                 const cartoesPresenteCarrossel = Array.from(trilhaCarrossel.children);
                 if (cartoesPresenteCarrossel.length > 0 && botaoProximo && botaoAnterior && janelaCarrossel) {
@@ -68,8 +67,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (modalPresente && botaoFecharModal && botoesVerDetalhes.length > 0 && modalImagemPresente && modalTituloPresente && modalDescricaoPresente && miniFormulario && botaoAcaoModalPrincipal && botaoSubmeterIdeia) {
                 
+                const resetModalToDefaultView = () => {
+                    console.log("Resetando modal para a vista padrão.");
+                    if (modalImagemPresente) modalImagemPresente.style.display = 'block';
+                    if (modalDescricaoPresente) modalDescricaoPresente.style.display = 'block';
+                    if (miniFormulario) miniFormulario.style.display = 'none';
+                    if (botaoAcaoModalPrincipal) {
+                         botaoAcaoModalPrincipal.style.display = 'inline-block';
+                         botaoAcaoModalPrincipal.disabled = false; // Garante que o botão está ativo
+                    }
+                    // Limpar campos do formulário
+                    if(inputIdeiaPresente) inputIdeiaPresente.value = '';
+                    if(inputDataPresente) inputDataPresente.value = '';
+                    if(inputObservacaoPresente) inputObservacaoPresente.value = '';
+                };
+                
                 const abrirModal = (cartao) => {
                     console.log("--- abrirModal INÍCIO ---");
+                    resetModalToDefaultView(); // Garante que o modal começa limpo
+
                     const presenteId = cartao.dataset.presenteId; 
                     idDoPresenteNoModalAtual = presenteId; 
                     console.log("ID do presente a abrir:", idDoPresenteNoModalAtual);
@@ -84,27 +100,17 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (modalImagemPresente) {
                         modalImagemPresente.src = imagemSrc;
                         modalImagemPresente.alt = tituloOriginalDoPresenteSelecionado;
-                        modalImagemPresente.style.display = 'block'; 
-                        console.log("modalImagemPresente.style.display definido para 'block' no início de abrirModal");
+                        // A visibilidade já foi tratada em resetModalToDefaultView
                     } else {
-                        console.error("#modalImagemPresente NÃO encontrado no DOM ao tentar definir src/display!");
+                        console.error("#modalImagemPresente NÃO encontrado no DOM!");
                     }
-
-                    miniFormulario.style.display = 'none';
-                    modalDescricaoPresente.style.display = 'block'; 
-                    inputIdeiaPresente.value = '';
-                    inputDataPresente.value = '';
-                    inputObservacaoPresente.value = '';
-                    botaoAcaoModalPrincipal.style.display = 'inline-block'; 
-                    botaoAcaoModalPrincipal.disabled = false;
                     
-                    console.log("Texto atual do botaoAcaoModalPrincipal ANTES de definir:", botaoAcaoModalPrincipal.textContent);
                     if (idDoPresenteNoModalAtual !== '1') { 
                         botaoAcaoModalPrincipal.textContent = 'Criar!';
                     } else { 
                         botaoAcaoModalPrincipal.textContent = 'Confirmar!';
                     }
-                    console.log("Texto do botaoAcaoModalPrincipal DEPOIS de definir:", botaoAcaoModalPrincipal.textContent);
+                    console.log("Texto do botaoAcaoModalPrincipal definido para:", botaoAcaoModalPrincipal.textContent);
                     
                     modalPresente.classList.add('visivel');
                     document.body.style.overflow = 'hidden';
@@ -115,24 +121,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     console.log("--- fecharModal INÍCIO ---");
                     modalPresente.classList.remove('visivel');
                     document.body.style.overflow = '';
-                    miniFormulario.style.display = 'none';
+                    resetModalToDefaultView(); // Garante que o modal é resetado ao fechar
                     
-                    if(modalDescricaoPresente) modalDescricaoPresente.style.display = 'block'; 
-                    if (modalImagemPresente) {
-                        modalImagemPresente.style.display = 'block'; 
-                        console.log("Imagem do modal MOSTRADA ao fechar.");
-                    }
-                    if(botaoAcaoModalPrincipal) botaoAcaoModalPrincipal.style.display = 'inline-block';
-                    
-                    // Resetar texto do botão principal com base no último ID visualizado, se necessário
-                    // ou simplesmente deixar que abrirModal cuide disso.
-                    // Para garantir que não fique "A Enviar..."
+                    // Restaura o texto do botão principal para o estado padrão (será redefinido em abrirModal)
                     if (botaoAcaoModalPrincipal) {
-                        if (idDoPresenteNoModalAtual && idDoPresenteNoModalAtual !== '1') {
-                            botaoAcaoModalPrincipal.textContent = 'Criar!';
-                        } else {
-                            botaoAcaoModalPrincipal.textContent = 'Confirmar!';
-                        }
+                         botaoAcaoModalPrincipal.textContent = 'Confirmar!'; // Um padrão seguro
                     }
                     idDoPresenteNoModalAtual = null; 
                     console.log("--- fecharModal FIM ---");
@@ -156,20 +149,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 botaoAcaoModalPrincipal.addEventListener('click', () => {
                     console.log("--- botaoAcaoModalPrincipal CLIQUE ---");
                     console.log("Texto do botão no momento do clique:", botaoAcaoModalPrincipal.textContent);
-                    console.log("ID do presente no modal no momento do clique:", idDoPresenteNoModalAtual);
 
                     if (botaoAcaoModalPrincipal.textContent === 'Criar!') { 
                         console.log("Condição 'Criar!' satisfeita.");
                         if(modalDescricaoPresente) modalDescricaoPresente.style.display = 'none'; 
+                        if(modalImagemPresente) modalImagemPresente.style.display = 'none'; 
                         if(miniFormulario) miniFormulario.style.display = 'block';
                         if(botaoAcaoModalPrincipal) botaoAcaoModalPrincipal.style.display = 'none'; 
-                        
-                        if(modalImagemPresente) { 
-                           modalImagemPresente.style.display = 'none'; 
-                           console.log("Imagem do modal (#modalImagemPresente) definida para 'none'.");
-                        } else {
-                            console.error("Elemento modalImagemPresente não encontrado ao tentar esconder no clique 'Criar!'.");
-                        }
+                        console.log("Formulário mostrado, imagem e descrição escondidas.");
                     } else { // "Confirmar!"
                         console.log("Botão 'Confirmar!' (direto) clicado para o presente ID:", idDoPresenteNoModalAtual);
                         enviarEmailParaAppsScript({
@@ -249,15 +236,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     })
                     .finally(() => {
                         botaoAcionado.disabled = false;
+                        // O texto do botão é resetado por fecharModal e/ou abrirModal
+                        // Mas para o botão de submissão do formulário, podemos resetar aqui
                         if(botaoAcionado === botaoSubmeterIdeia) {
                             botaoAcionado.textContent = 'Enviar Ideia';
-                        } else { 
-                             if (idDoPresenteNoModalAtual && idDoPresenteNoModalAtual !== '1') {
-                                botaoAcionado.textContent = 'Criar!';
-                            } else {
-                                botaoAcionado.textContent = 'Confirmar!';
-                            }
                         }
+                        // O texto do botaoAcaoModalPrincipal será tratado por fecharModal/abrirModal
                     });
                 }
 
