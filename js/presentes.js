@@ -175,7 +175,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Substitua com os seus dados reais
             const seuEmailReal = 'valentinawpp25@gmail.com'; // SEU EMAIL
-            const emailDelaReal = 'valenesquiveel@gmail.com'; // EMAIL DELA
+            const emailDelaReal = 'valesquiveel@gmail.com'; // EMAIL DELA
             const nomeRemetenteOpcional = 'Valentina'; // SEU NOME
             const urlDoSeuGoogleAppsScript = 'https://script.google.com/macros/s/AKfycbyYBempnhUS2WO_chmqNZR4WC8jBiwdJ90u9NW-VR0iqiC0akrwgIbUmIlEACC0tDvCZA/exec'; // SEU URL DO SCRIPT
 
