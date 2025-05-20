@@ -90,44 +90,4 @@
             }, 1300); 
         }
 
-        function acaoBotaoCarta() {
-            console.log("Botão da carta aberta foi clicado!");
-
-            const cartaContainer = document.getElementById('cartaContainer');
-            const conteudoFinal = document.getElementById('conteudoFinal');
-
-            if (cartaContainer) {
-                cartaContainer.classList.remove('animacao-aparecer-carta'); 
-                cartaContainer.classList.add('animacao-desaparecer-carta');
-            }
-
-            setTimeout(() => {
-                if (conteudoFinal) {
-                     conteudoFinal.style.display = 'none';
-                }
-                if (cartaContainer) {
-                     cartaContainer.style.display = 'none'; 
-                     cartaContainer.classList.remove('animacao-desaparecer-carta'); 
-
-                     const envelopeAbaSuperior = document.querySelector('.envelope-aba-superior');
-                     const folhaMensagem = document.getElementById('folhaMensagem');
-                     const botaoCartaContainer = document.getElementById('botaoCartaContainer');
-                     // const envelopeBase = document.querySelector('.envelope-base'); // Não precisa mais interagir com overflow
-
-                     if(envelopeAbaSuperior) envelopeAbaSuperior.classList.remove('aberta');
-                     if(folhaMensagem) {
-                        folhaMensagem.classList.remove('visivel');
-                        // Reset initial transform and opacity for next animation if needed
-                        folhaMensagem.style.transform = 'translateX(-50%) translateY(-180px)'; 
-                        folhaMensagem.style.opacity = '0';
-                        folhaMensagem.style.zIndex = '3'; // Reset z-index
-                     }
-                     if(botaoCartaContainer) {
-                        botaoCartaContainer.style.display = 'none';
-                        botaoCartaContainer.style.opacity = 0;
-                     }
-                     // if(envelopeBase) envelopeBase.style.overflow = 'hidden'; // Não é mais necessário
-                     if(cartaContainer) cartaContainer.style.opacity = 0; 
-                }
-            }, 1000); 
-        }
+        
