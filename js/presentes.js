@@ -90,9 +90,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // MODIFICADO: Todos os cartões, exceto o primeiro (ID "1"), usarão o formulário.
             if (presenteId !== '1') {
-                botaoAcaoModalPrincipal.textContent = 'Fazer Escolha';
+                botaoAcaoModalPrincipal.textContent = 'Criar!';
             } else { // É o primeiro cartão
-                botaoAcaoModalPrincipal.textContent = 'Confirmar Escolha!';
+                botaoAcaoModalPrincipal.textContent = 'Confirmar!';
             }
 
             modalPresente.classList.add('visivel');
