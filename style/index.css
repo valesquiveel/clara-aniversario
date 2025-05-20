@@ -162,24 +162,35 @@
             z-index: 0; /* Aba vai para trás de tudo quando aberta */
         }
         
-        #folhaMensagem {
+       #folhaMensagem {
             position: absolute;
-            top: 0; 
+            top: 0; /* Relativo ao .envelope-base */
             left: 50%;
-            transform: translateX(-50%) translateY(15px); 
-            width: 90%;  
+            transform: translateX(-50%) translateY(15px); /* Posição inicial dentro do .envelope-base */
+            width: 90%; 
+            height: calc(100% - 30px); 
+            max-height: 220px; 
             background-color: #fdfaf0; 
             border: 1px solid #e0dacd;
             border-radius: 3px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.15);
-            padding: 12px;
+            padding: 15px; 
             box-sizing: border-box;
-            opacity: 0; 
+            opacity: 0; /* Começa invisível */
             color: #4a3b31; 
             font-family: "Architects Daughter", cursive;
-            z-index: 2; /* AJUSTE: Folha abaixo das abas internas, acima da base */
-            transition: opacity 0.4s ease-out,
-                        transform 1.5s cubic-bezier(0.22, 0.61, 0.36, 1) 0.3s;
+            z-index: 3; /* Acima das abas internas, abaixo da aba superior */
+            /* A transição de opacidade será controlada por JS para o "peek" */
+            /* A transição de transform e z-index será para a classe .visivel */
+            transition: transform 1.5s cubic-bezier(0.22, 0.61, 0.36, 1) 0.3s, 
+                        z-index 0s linear 0.3s,
+                        opacity 0.4s ease-out; /* Opacidade geral */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start; 
+            overflow-y: auto; 
+            cursor: default; /* Cursor padrão inicialmente */
         }
         #folhaMensagem.visivel {
             opacity: 1; 
