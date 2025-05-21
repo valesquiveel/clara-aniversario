@@ -1,12 +1,12 @@
 #Rect1 {  
-    padding: 20px 10px; /* Exemplo: reduz padding lateral se botões forem internos */
-    overflow: visible; /* Ou ajuste o posicionamento dos botões do carrossel para dentro */
+    padding: 20px 10px; 
+    overflow: visible; 
 }
 
 #containerCarrosselPresentes {
     position: relative; 
-    width: 95%; /* Ocupa quase toda a largura do Rect1 */
-    max-width: 1080px; /* Limita a largura máxima do carrossel (ajustado para melhor visualização de 3 cards) */
+    width: 95%; 
+    max-width: 1080px;
     margin: auto;
     padding: 0 30px; 
     box-sizing: border-box;
@@ -14,21 +14,21 @@
 
 .carrosselJanela {
     width: 100%;
-    overflow: hidden; /* Essencial para o efeito de carrossel */
-    border-radius: 5px; /* Suaviza as bordas da área visível dos cartões */
+    overflow: hidden; 
+    border-radius: 5px; 
 }
 
 .carrosselTrilha {
     display: flex; /* Alinha os cartões horizontalmente */
-    gap: 20px; /* Espaço entre os cartões */
-    padding: 10px; /* Um pequeno padding para os cartões não colarem nas bordas da janela */
+    gap: 20px; 
+    padding: 10px; 
     transition: transform 0.5s ease-in-out; /* Para a animação de slide */
 }
 
 .cartaoPresente {
     flex: 0 0 200px; 
-    background-color: #b3d2dc; /* Um branco levemente "quente", ou use #fff */
-    border: 1px solid #acc8d1; /* Uma borda sutil com tom terroso claro */
+    background-color: #b3d2dc; 
+    border: 1px solid #acc8d1; 
     border-radius: 8px;
     padding: 20px;
     text-align: center;
@@ -37,14 +37,14 @@
     box-shadow: 0px 4px 12px rgba(54, 10, 9, 0.15); /* Sombra suave */
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* Para o botão ficar mais ao fundo */
-    min-height: 410px; /* Altura mínima para manter consistência visual */
+    justify-content: space-between; 
+    min-height: 410px; 
 }
 
 .cartaoPresenteImagem {
     width: 100%;
     height: 140px;
-    object-fit: cover; /* Garante que a imagem cubra a área sem distorcer */
+    object-fit: cover; 
     border-radius: 4px;
     margin-bottom: 12px;
 }
@@ -52,7 +52,7 @@
 .cartaoPresenteTitulo {
     font-family: "Architects Daughter", cursive;
     color: #2d2d29; /* Cor de destaque marrom */
-    font-size: 1.5em; /* Ajustado para caber melhor */
+    font-size: 1.5em; 
     margin: 5px 0 10px 0;
     line-height: 1.2;
     min-height: 40px; /* Para títulos de 1 ou 2 linhas */
@@ -63,7 +63,7 @@
     color: #4f4f4f; /* Um cinza escuro para a descrição */
     line-height: 1.4;
     margin-bottom: 15px;
-    flex-grow: 1; /* Faz a descrição ocupar espaço, empurrando o botão para baixo */
+    flex-grow: 1; 
 }
 
 .botaoVerDetalhesPresente {
@@ -77,7 +77,7 @@
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
     display: inline-block;
-    width: 90%; /* Para ocupar mais espaço no card */
+    width: 90%; 
     margin: 0 auto; /* Centraliza o botão */
 }
 
@@ -113,11 +113,11 @@
 }
 
 .botaoCarrossel.anterior {
-    left: 0px; /* Dentro do padding do containerCarrosselPresentes */
+    left: 0px; 
 }
 
 .botaoCarrossel.proximo {
-    right: 0px; /* Dentro do padding do containerCarrosselPresentes */
+    right: 0px; 
 }
 
 /* --- Estilos do Modal --- */
@@ -152,21 +152,20 @@
     padding: 25px 30px;
     border-radius: 8px;
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
-    width: 100%; /* Ocupa a largura do padding do overlay */
-    max-width: 580px; /* Largura máxima do conteúdo do modal */
+    width: 100%; 
+    max-width: 580px; 
     position: relative;
     text-align: center;
     transform: scale(0.9) translateY(15px); /* Efeito inicial para animação "pop" */
     transition: transform 0.35s cubic-bezier(0.18, 0.89, 0.32, 1.28), opacity 0.3s ease-out;
     opacity: 0; /* Começa invisível, JS + .visivel controla */
-    max-height: 90vh; /* Evita que o modal seja maior que a tela */
-    overflow-y: auto; /* Permite scroll se o conteúdo for muito grande */
+    max-height: 90vh; 
+    overflow-y: auto; 
 }
 
 .modalCamadaFundo.visivel .modalConteudo {
     transform: scale(1) translateY(0);
     opacity: 1;
-    /* ESTILO DE DEBUG TEMPORÁRIO - REMOVER DEPOIS */
     background-color: #dfece6 !important; /* Fundo amarelo para depuração do conteúdo */
 }
 
@@ -213,9 +212,9 @@
     color: #215a6d; /* Cor de texto principal escura */
     font-size: 1em;
     line-height: 1.6;
-    margin-bottom: 25px; /* Margem inferior antes do botão de escolher */
+    margin-bottom: 25px; 
     text-align: justify; /* Justificado para melhor leitura de blocos de texto */
-    padding: 0 10px; /* Pequeno padding lateral para a descrição */
+    padding: 0 10px; 
 }
 
 .botaoEscolherPresente {
@@ -233,67 +232,71 @@
 }
 
 .botaoEscolherPresente:hover {
-    background-color: #1f4f5f; /* Tom mais escuro do marrom no hover */
+    background-color: #1f4f5f; 
     transform: translateY(-2px); /* Efeito subtil de elevação */
 }
 
 #miniFormularioPresente {
-            margin-top: 20px;
-            padding-top: 15px;
-            border-top: 1px solid #eee;
-            text-align: left;
-        }
-        #miniFormularioPresente label {
-            display: block;
-            margin-bottom: 5px;
-            color: #215a6d;
-            font-size: 0.9em;
-            font-weight: bold;
-        }
-        #miniFormularioPresente input[type="date"],
-        #miniFormularioPresente textarea {
-            width: calc(100% - 22px); 
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-family: "Kite One", sans-serif;
-            font-size: 0.95em;
-            box-sizing: border-box;
-        }
-        #miniFormularioPresente textarea {
-            resize: vertical;
-            min-height: 60px;
-        }
-        #botaoSubmeterIdeia {
-            background-color: #215a6d; 
-            color: white; 
-            font-family: "Kite One", sans-serif;
-            font-size: 1.05em; 
-            border: none; 
-            padding: 12px 25px; 
-            border-radius: 5px;
-            cursor: pointer; 
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            display: block; 
-            margin: 10px auto 0 auto; 
-            width: auto;
-        }
-        #botaoSubmeterIdeia:hover { background-color: #1f4f5f; transform: translateY(-2px); }
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+    text-align: left;
+}
 
-        @media (max-width: 600px) {
-            .modalConteudo { 
-                padding: 20px 15px; max-width: 95%; 
-            }
-            .modalPresenteTitulo { 
-                font-size: 1.8em; 
-            }
+#miniFormularioPresente label {
+    display: block;
+    margin-bottom: 5px;
+    color: #215a6d;
+    font-size: 0.9em;
+    font-weight: bold;
+}
 
-            .modalPresenteDescricao {
-                 font-size: 0.95em; 
-            }
+#miniFormularioPresente input[type="date"], #miniFormularioPresente textarea {
+    width: calc(100% - 22px); 
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: "Kite One", sans-serif;
+    font-size: 0.95em;
+    box-sizing: border-box;
+}
 
-            .botaoFecharModal {
-                top: 8px; right: 10px; font-size: 26px; 
-            }
-        }
+#miniFormularioPresente textarea {
+    resize: vertical;
+    min-height: 60px;
+}
+
+#botaoSubmeterIdeia {
+    background-color: #215a6d; 
+    color: white; 
+    font-family: "Kite One", sans-serif;
+    font-size: 1.05em; 
+    border: none; 
+    padding: 12px 25px; 
+    border-radius: 5px;
+    cursor: pointer; 
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: block; 
+    margin: 10px auto 0 auto; 
+    width: auto;
+}
+
+#botaoSubmeterIdeia:hover { 
+    background-color: #1f4f5f; transform: translateY(-2px); 
+}
+
+@media (max-width: 600px) {
+    .modalConteudo { 
+        padding: 20px 15px; max-width: 95%; 
+    }
+    .modalPresenteTitulo { 
+        font-size: 1.8em; 
+    }
+    .modalPresenteDescricao {
+        font-size: 0.95em; 
+    }
+    .botaoFecharModal {
+        top: 8px; right: 10px; font-size: 26px; 
+    }
+}

@@ -2,43 +2,41 @@
 
 body {
     width: 100%;
-    min-height: 100vh; /* Use min-height */
+    min-height: 100vh; 
     background-color: #215A6D;
     margin: 0;
     padding: 0;
-    font-family: "Kite One", sans-serif; /* Default font */
-    display: flex; /* Use flexbox for layout */
-    flex-direction: column; /* Stack header, main, footer */
-    align-items: center; /* Center content horizontally */
+    font-family: "Kite One", sans-serif; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; /
 }
 
-        /* Main content area */ 
+      
 main {
     display: flex;
     justify-content: center;
-    align-items: center; /* Align items vertically */
+    align-items: center; 
     flex-direction: column;
-    width: 100%; /* Take full width */
+    width: 100%; 
 }
 
-        /* Header and Footer styling */
 .hf {
     color: white;
-    font-size: clamp(24px, 5vw, 35px); /* Responsive font size */
+    font-size: clamp(24px, 5vw, 35px); 
     text-align: center;
     font-family: "Kite One", sans-serif;
     margin: 20px 0;
-    padding: 0 15px; /* Add padding */
-    width: 90%; /* Limit width */
+    padding: 0 15px; 
+    width: 90%; 
     box-sizing: border-box;
 }
 
 .hf p {
-    font-size: clamp(18px, 4vw, 30px); /* Responsive font size */
-    margin: 0; /* Remove default margin */
+    font-size: clamp(18px, 4vw, 30px); 
+    margin: 0; 
 }
 
-        /* Container for decorative flowers */
 #divimgFlower {
     width: 90%;
     max-width: 800px;
@@ -48,41 +46,40 @@ main {
     margin-bottom: 15px;
 }
 
-        /* Flower image styling */
 #imgflower1, #imgflower2 {
     width: 90%;
     height: auto;
     position: absolute;
-    z-index: 9999; /* Ensure flowers are above Rect1 if overlapping */
-    pointer-events: none; /* Prevent interaction */
-    mix-blend-mode: screen; /* Blending effect */
-    filter: contrast(300%); /* Image filter */
+    z-index: 9999; 
+    pointer-events: none; 
+    mix-blend-mode: screen; 
+    filter: contrast(300%); 
 }
 
 #imgflower1 {
-    right: 70%; /* Position left flower */
+    right: 70%; 
             
 }
 
 #imgflower2 {
-    left: 70%; /* Position right flower */
+    left: 70%; 
 }
 
-/* Main grey rectangle container */
+
 #Rect1 {
-    width: 80%; /* Responsive width */
+    width: 80%;
     height: 80%;
-    min-height: 750px; /* Minimum height */
+    min-height: 750px; 
     background-color: #dfece6;
     border-radius: 5px;
-    display: flex; /* Use flex to center content */
+    display: flex; 
     justify-content: center;
     align-items: center;
     opacity: 0.85;
     padding: 20px;
     box-sizing: border-box;
-    position: relative; /* Needed for positioning children if required */
-    overflow: hidden; /* Hide overflow if content gets too large */
+    position: relative;
+    overflow: hidden; 
 }
 
 @media (max-width: 1700px) {
