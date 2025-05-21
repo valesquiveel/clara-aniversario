@@ -5,6 +5,7 @@
     height: auto;
     min-height: 400px;
     background-image: url('../images/Azul\ Mãe\ Aniversário\ Cartão.png'); /* Imagem de fundo para o cartão inicial */
+    background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
     text-align: center;
