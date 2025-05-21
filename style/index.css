@@ -315,3 +315,10 @@
 #botaoEstrela2:hover {
     background-image: url('../images/Star 3.png');
 }
+
+@media (max-width: 500px) {
+    #cartaContainer {
+            width: 95%; 
+            height: 230px;     
+        }
+}
