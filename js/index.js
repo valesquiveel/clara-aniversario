@@ -110,7 +110,7 @@
                                     // }
                                 }, tempoTotalAnimacaoFolha + 100); // Aparece após a folha sair + buffer
 
-                            }, 500); // Delay após clique na aba, para a aba começar a abrir
+                            }, 1000); // Delay após clique na aba, para a aba começar a abrir
 
                         }, { once: true }); // Listener executa apenas uma vez
                     }
