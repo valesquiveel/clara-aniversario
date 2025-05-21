@@ -1,19 +1,14 @@
-/* Ajustes em Rect1 para acomodar melhor o carrossel, se necessário */
-#Rect1 {
-    /* display: flex; justify-content: center; align-items: center; já deve estar no geral.css */
-    /* Pode ser necessário ajustar o padding se os botões do carrossel ficarem muito colados */
+#Rect1 {  
     padding: 20px 10px; /* Exemplo: reduz padding lateral se botões forem internos */
-    /* Garante que o Rect1 possa conter o carrossel e seus botões que podem sair um pouco */
     overflow: visible; /* Ou ajuste o posicionamento dos botões do carrossel para dentro */
 }
 
-/* --- Estilos do Carrossel de Presentes --- */
 #containerCarrosselPresentes {
-    position: relative; /* Para posicionamento dos botões de navegação */
+    position: relative; 
     width: 95%; /* Ocupa quase toda a largura do Rect1 */
     max-width: 1080px; /* Limita a largura máxima do carrossel (ajustado para melhor visualização de 3 cards) */
-    margin: auto; /* Centraliza se Rect1 for flex e o container tiver max-width */
-    padding: 0 30px; /* Espaço para os botões de navegação ficarem nas laterais internas */
+    margin: auto;
+    padding: 0 30px; 
     box-sizing: border-box;
 }
 
@@ -28,21 +23,14 @@
     gap: 20px; /* Espaço entre os cartões */
     padding: 10px; /* Um pequeno padding para os cartões não colarem nas bordas da janela */
     transition: transform 0.5s ease-in-out; /* Para a animação de slide */
-    /* A largura total será calculada por JS ou será naturalmente grande devido aos 15 cartões */
 }
 
 .cartaoPresente {
-    flex: 0 0 200px; /* Largura base de cada cartão (ajustado) */
-    /* Com max-width de 680px para o container, e padding de 30px em cada lado na janela,
-       a área útil da janela é 680 - 60 = 620px.
-       Para 3 cartões: (620 - 2*20 de gap entre cartões - 2*10 de padding da trilha) / 3 = (620 - 40 - 20) / 3 = 560 / 3 = ~186px.
-       Vamos usar 200px e permitir um leve scroll ou ajustar para 2 cartões mais folgados se necessário.
-       Se o Rect1 for menor, o max-width do containerCarrosselPresentes vai limitá-lo.
-    */
-    background-color: #fdfaf7; /* Um branco levemente "quente", ou use #fff */
-    border: 1px solid #dec0aa; /* Uma borda sutil com tom terroso claro */
+    flex: 0 0 200px; 
+    background-color: #b3d2dc; /* Um branco levemente "quente", ou use #fff */
+    border: 1px solid #acc8d1; /* Uma borda sutil com tom terroso claro */
     border-radius: 8px;
-    padding: 15px;
+    padding: 20px;
     text-align: center;
     font-family: "Kite One", sans-serif;
     color: #360A09; /* Cor de texto principal escura */
@@ -50,7 +38,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between; /* Para o botão ficar mais ao fundo */
-    min-height: 380px; /* Altura mínima para manter consistência visual */
+    min-height: 410px; /* Altura mínima para manter consistência visual */
 }
 
 .cartaoPresenteImagem {
@@ -59,12 +47,11 @@
     object-fit: cover; /* Garante que a imagem cubra a área sem distorcer */
     border-radius: 4px;
     margin-bottom: 12px;
-    border: 1px solid #eee;
 }
 
 .cartaoPresenteTitulo {
     font-family: "Architects Daughter", cursive;
-    color: #834923; /* Cor de destaque marrom */
+    color: #2d2d29; /* Cor de destaque marrom */
     font-size: 1.5em; /* Ajustado para caber melhor */
     margin: 5px 0 10px 0;
     line-height: 1.2;
@@ -80,7 +67,7 @@
 }
 
 .botaoVerDetalhesPresente {
-    background-color: #834923;
+    background-color: #215a6d;
     color: white;
     font-family: "Kite One", sans-serif;
     font-size: 0.95em;
@@ -95,7 +82,7 @@
 }
 
 .botaoVerDetalhesPresente:hover {
-    background-color: #6a3a1b; /* Tom mais escuro do marrom */
+    background-color: #1f4f5f; /* Tom mais escuro do marrom */
     transform: translateY(-2px);
 }
 
@@ -103,7 +90,7 @@
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    background-color: rgba(54, 10, 9, 0.7); /* Cor de fundo principal com mais opacidade */
+    background-color: rgba(26, 104, 117, 0.7); /* Cor de fundo principal com mais opacidade */
     color: white;
     border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 50%;
@@ -121,7 +108,7 @@
 }
 
 .botaoCarrossel:hover {
-    background-color: #360A09;
+    background-color: #083568;
     border-color: rgba(255, 255, 255, 0.7);
 }
 
@@ -140,7 +127,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(30, 5, 5, 0.88); /* Overlay mais escuro, usando tom do body */
+    background-color: rgba(14, 59, 85, 0.692); /* Overlay mais escuro, usando tom do body */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -150,21 +137,18 @@
     transition: opacity 0.4s ease, visibility 0s linear 0.4s; /* Transição para sumir */
     padding: 15px; /* Para não colar nas bordas em telas pequenas */
     box-sizing: border-box;
-    /* ESTILO DE DEBUG TEMPORÁRIO - REMOVER DEPOIS */
-    /* border: 5px dashed lime !important; */
 }
 
 .modalCamadaFundo.visivel { /* Classe adicionada por JS para mostrar o modal */
     opacity: 1;
     visibility: visible;
     transition: opacity 0.4s ease;
-    /* ESTILO DE DEBUG TEMPORÁRIO - REMOVER DEPOIS */
     z-index: 10000 !important; /* Z-index muito alto para garantir que está no topo para depuração */
 }
 
 .modalConteudo {
     background-color: #fdfaf7; /* Mesmo fundo dos cartões */
-    color: #360A09; /* Cor de texto principal escura */
+    color: #215a6d; /* Cor de texto principal escura */
     padding: 25px 30px;
     border-radius: 8px;
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
@@ -177,15 +161,13 @@
     opacity: 0; /* Começa invisível, JS + .visivel controla */
     max-height: 90vh; /* Evita que o modal seja maior que a tela */
     overflow-y: auto; /* Permite scroll se o conteúdo for muito grande */
-    /* ESTILO DE DEBUG TEMPORÁRIO - REMOVER DEPOIS */
-    /* border: 3px solid blue !important; */
 }
 
 .modalCamadaFundo.visivel .modalConteudo {
     transform: scale(1) translateY(0);
     opacity: 1;
     /* ESTILO DE DEBUG TEMPORÁRIO - REMOVER DEPOIS */
-    background-color: #d9d9d9 !important; /* Fundo amarelo para depuração do conteúdo */
+    background-color: #dfece6 !important; /* Fundo amarelo para depuração do conteúdo */
 }
 
 .botaoFecharModal {
@@ -196,7 +178,7 @@
     border: none;
     font-size: 28px;
     font-weight: 300;
-    color: #834923; /* Cor de destaque marrom */
+    color: #215a6d; /* Cor de destaque marrom */
     cursor: pointer;
     padding: 5px;
     line-height: 1;
@@ -204,7 +186,7 @@
     z-index: 10; /* Para garantir que o botão de fechar esteja acima do conteúdo do modal */
 }
 .botaoFecharModal:hover {
-    color: #360A09; /* Cor principal escura no hover */
+    color: #1f4f5f; /* Cor principal escura no hover */
     transform: scale(1.1);
 }
 
@@ -221,14 +203,14 @@
 
 .modalPresenteTitulo {
     font-family: "Architects Daughter", cursive; /* Fonte manuscrita para o título */
-    color: #834923; /* Cor de destaque marrom */
+    color: #2d2d29; /* Cor de destaque marrom */
     font-size: 2em;
     margin: 0 0 15px 0; /* Margem inferior */
 }
 
 .modalPresenteDescricao {
     font-family: "Kite One", sans-serif; /* Fonte padrão para a descrição */
-    color: #360A09; /* Cor de texto principal escura */
+    color: #215a6d; /* Cor de texto principal escura */
     font-size: 1em;
     line-height: 1.6;
     margin-bottom: 25px; /* Margem inferior antes do botão de escolher */
@@ -237,7 +219,7 @@
 }
 
 .botaoEscolherPresente {
-    background-color: #834923; /* Cor de destaque marrom */
+    background-color: #215a6d; /* Cor de destaque marrom */
     color: white;
     font-family: "Kite One", sans-serif;
     font-size: 1.05em;
@@ -251,7 +233,7 @@
 }
 
 .botaoEscolherPresente:hover {
-    background-color: #6a3a1b; /* Tom mais escuro do marrom no hover */
+    background-color: #1f4f5f; /* Tom mais escuro do marrom no hover */
     transform: translateY(-2px); /* Efeito subtil de elevação */
 }
 
@@ -264,7 +246,7 @@
         #miniFormularioPresente label {
             display: block;
             margin-bottom: 5px;
-            color: #360A09;
+            color: #215a6d;
             font-size: 0.9em;
             font-weight: bold;
         }
@@ -284,16 +266,34 @@
             min-height: 60px;
         }
         #botaoSubmeterIdeia {
-            background-color: #834923; color: white; font-family: "Kite One", sans-serif;
-            font-size: 1.05em; border: none; padding: 12px 25px; border-radius: 5px;
-            cursor: pointer; transition: background-color 0.3s ease, transform 0.2s ease;
-            display: block; margin: 10px auto 0 auto; width: auto;
+            background-color: #215a6d; 
+            color: white; 
+            font-family: "Kite One", sans-serif;
+            font-size: 1.05em; 
+            border: none; 
+            padding: 12px 25px; 
+            border-radius: 5px;
+            cursor: pointer; 
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            display: block; 
+            margin: 10px auto 0 auto; 
+            width: auto;
         }
-        #botaoSubmeterIdeia:hover { background-color: #6a3a1b; transform: translateY(-2px); }
+        #botaoSubmeterIdeia:hover { background-color: #1f4f5f; transform: translateY(-2px); }
 
         @media (max-width: 600px) {
-            .modalConteudo { padding: 20px 15px; max-width: 95%; }
-            .modalPresenteTitulo { font-size: 1.8em; }
-            .modalPresenteDescricao { font-size: 0.95em; }
-            .botaoFecharModal { top: 8px; right: 10px; font-size: 26px; }
+            .modalConteudo { 
+                padding: 20px 15px; max-width: 95%; 
+            }
+            .modalPresenteTitulo { 
+                font-size: 1.8em; 
+            }
+
+            .modalPresenteDescricao {
+                 font-size: 0.95em; 
+            }
+
+            .botaoFecharModal {
+                top: 8px; right: 10px; font-size: 26px; 
+            }
         }

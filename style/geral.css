@@ -3,7 +3,7 @@
 body {
     width: 100%;
     min-height: 100vh; /* Use min-height */
-    background-color: #360A09;
+    background-color: #215A6D;
     margin: 0;
     padding: 0;
     font-family: "Kite One", sans-serif; /* Default font */
@@ -71,8 +71,9 @@ main {
 /* Main grey rectangle container */
 #Rect1 {
     width: 80%; /* Responsive width */
-    min-height: 700px; /* Minimum height */
-    background-color: #d9d9d9;
+    height: 80%;
+    min-height: 750px; /* Minimum height */
+    background-color: #dfece6;
     border-radius: 5px;
     display: flex; /* Use flex to center content */
     justify-content: center;
