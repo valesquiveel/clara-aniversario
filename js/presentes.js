@@ -4,6 +4,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const conteudoPrincipalPresentes = document.getElementById('conteudo-principal-presentes');
 
     if (botaoEntrarPresentes && telaInicial && conteudoPrincipalPresentes) {
+        if (window.innerWidth < 421) {
+            telaInicial.style.display = 'flex';
+            conteudoPrincipalPresentes.style.display = 'none';
+        } else {
+            telaInicial.style.display = 'none';
+            conteudoPrincipalPresentes.style.display = 'block';
+        }
+
         botaoEntrarPresentes.addEventListener('click', () => {
             telaInicial.classList.add('escondida');
             setTimeout(() => {
@@ -35,10 +43,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const calcularDimensoesCarrossel = () => {
                 if (cartoesPresenteCarrossel.length === 0 || !janelaCarrossel.offsetWidth) return;
-                larguraCartao = cartoesPresenteCarrossel[0].getBoundingClientRect().width;
+                
+                const primeiroCartao = cartoesPresenteCarrossel.find(c => c.offsetWidth > 0);
+                if (!primeiroCartao) return;
+                larguraCartao = primeiroCartao.getBoundingClientRect().width;
+                
                 const estiloTrilha = getComputedStyle(trilhaCarrossel);
                 gapCarrossel = parseFloat(estiloTrilha.gap) || (parseFloat(estiloTrilha.columnGap) || 20);
-                cartoesVisiveis = Math.max(1, Math.floor(janelaCarrossel.offsetWidth / (larguraCartao + gapCarrossel)));
+                
+                cartoesVisiveis = Math.max(1, Math.floor((janelaCarrossel.offsetWidth + gapCarrossel) / (larguraCartao + gapCarrossel)));
                 indiceAtual = Math.max(0, Math.min(indiceAtual, cartoesPresenteCarrossel.length - cartoesVisiveis));
             };
 
@@ -68,17 +81,37 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
             
-            if (janelaCarrossel.offsetWidth > 0) {
-                 moverParaCartao(0);
+            const inicializarCarrossel = () => {
+                 if (janelaCarrossel.offsetWidth > 0) {
+                    moverParaCartao(0);
+                } else {
+                    const observer = new IntersectionObserver((entries) => {
+                        if (entries[0].isIntersecting) {
+                            moverParaCartao(0);
+                            observer.disconnect();
+                        }
+                    }, { threshold: 0.01 }); // Um threshold baixo
+                    observer.observe(janelaCarrossel);
+                }
+            };
+
+            if (conteudoPrincipalPresentes.style.display !== 'none') {
+                inicializarCarrossel();
             } else {
-                const observer = new IntersectionObserver((entries) => {
-                    if (entries[0].isIntersecting) {
-                        moverParaCartao(0);
-                        observer.disconnect();
+                 const observerConteudo = new MutationObserver((mutationsList, observer) => {
+                    for(const mutation of mutationsList) {
+                        if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
+                            if (conteudoPrincipalPresentes.style.display !== 'none') {
+                                inicializarCarrossel();
+                                observer.disconnect();
+                                break;
+                            }
+                        }
                     }
-                }, { threshold: 0.1 });
-                observer.observe(janelaCarrossel);
+                });
+                observerConteudo.observe(conteudoPrincipalPresentes, { attributes: true });
             }
+
         } else {
             if (botaoProximoCarrossel) botaoProximoCarrossel.style.display = 'none';
             if (botaoAnteriorCarrossel) botaoAnteriorCarrossel.style.display = 'none';
@@ -87,7 +120,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const modalPresente = document.getElementById('modalPresente');
     const botaoFecharModal = document.querySelector('.botaoFecharModal');
-    const botoesVerDetalhes = document.querySelectorAll('.botaoVerDetalhesPresente');
     const modalImagemPresente = document.getElementById('modalImagemPresente'); 
     const modalTituloPresente = document.getElementById('modalTituloPresente');
     const modalDescricaoPresente = document.getElementById('modalDescricaoPresente');
@@ -98,6 +130,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const inputObservacaoPresente = document.getElementById('observacaoPresente');
     const botaoSubmeterIdeia = document.getElementById('botaoSubmeterIdeia');
     const botaoAcaoModalPrincipal = document.getElementById('botaoAcaoModalPrincipal');
+    const feedbackModal = document.getElementById('feedbackModal');
+    const feedbackFormulario = document.getElementById('feedbackFormulario');
+
 
     let tituloOriginalDoPresenteSelecionado = ""; 
 
@@ -113,6 +148,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if(inputIdeiaPresente) inputIdeiaPresente.value = '';
             if(inputDataPresente) inputDataPresente.value = '';
             if(inputObservacaoPresente) inputObservacaoPresente.value = '';
+            if(feedbackModal) feedbackModal.textContent = '';
+            if(feedbackFormulario) feedbackFormulario.textContent = '';
         };
         
         const abrirModal = (cartao) => {
@@ -138,7 +175,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 if(miniFormulario) miniFormulario.style.display = 'block';
                 if(botaoAcaoModalPrincipal) botaoAcaoModalPrincipal.style.display = 'none';
             } else {
-                botaoAcaoModalPrincipal.textContent = 'Confirmar!';
+                botaoAcaoModalPrincipal.textContent = 'Confirmar Minha Ideia!';
+                 if(miniFormulario) miniFormulario.style.display = 'none';
+                 if(botaoAcaoModalPrincipal) botaoAcaoModalPrincipal.style.display = 'inline-block';
             }
             
             modalPresente.classList.add('visivel');
@@ -150,7 +189,7 @@ document.addEventListener('DOMContentLoaded', () => {
             document.body.style.overflow = '';
             resetModalToDefaultView(); 
             if (botaoAcaoModalPrincipal) {
-                botaoAcaoModalPrincipal.textContent = 'Confirmar!';
+                botaoAcaoModalPrincipal.textContent = 'Confirmar Minha Ideia!';
             }
             idDoPresenteNoModalAtual = null; 
         };
@@ -183,11 +222,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const observacao = inputObservacaoPresente.value.trim();
 
             if (!ideia || !data) {
-                const feedbackForm = document.getElementById('feedbackFormulario');
-                if (feedbackForm) {
-                    feedbackForm.textContent = "Por favor, preencha a sua ideia e a data sugerida.";
-                    feedbackForm.style.color = 'red';
-                    setTimeout(() => { feedbackForm.textContent = ''; }, 3000);
+                if (feedbackFormulario) {
+                    feedbackFormulario.textContent = "Por favor, preencha a sua ideia e a data sugerida.";
+                    feedbackFormulario.style.color = 'red';
+                    setTimeout(() => { if(feedbackFormulario) feedbackFormulario.textContent = ''; }, 3000);
                 }
                 return;
             }
@@ -238,18 +276,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify(dadosParaEnviar), 
             })
             .then(response => {
-                const feedbackModal = document.getElementById('feedbackModal');
                 if (feedbackModal) {
                     feedbackModal.textContent = 'Notificação enviada com sucesso! Verifique a sua caixa de entrada.';
                     feedbackModal.style.color = 'green';
                 }
                 setTimeout(() => {
                     fecharModal(); 
-                    if(feedbackModal) feedbackModal.textContent = '';
                 }, 2500);
             })
             .catch(error => {
-                const feedbackModal = document.getElementById('feedbackModal');
                 if (feedbackModal) {
                     feedbackModal.textContent = 'Ocorreu um erro de rede ao tentar enviar a notificação.';
                     feedbackModal.style.color = 'red';
@@ -264,7 +299,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-            navigator.serviceWorker.register('/sw.js')
+            navigator.serviceWorker.register('../sw.js')
                 .then(registration => {
                 })
                 .catch(error => {
