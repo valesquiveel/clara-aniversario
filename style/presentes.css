@@ -1,69 +1,69 @@
-#Rect1 {  
-    padding: 20px 10px; 
-    overflow: visible; 
+#Rect1 {
+    padding: 20px 10px;
+    overflow: visible;
 }
 
 #containerCarrosselPresentes {
-    position: relative; 
-    width: 100%; 
+    position: relative;
+    width: 100%;
     max-width: 1180px;
     margin: auto;
-    padding: 0 30px; 
+    padding: 0 30px;
     box-sizing: border-box;
 }
 
 .carrosselJanela {
     width: 100%;
-    overflow: hidden; 
-    border-radius: 5px; 
+    overflow: hidden;
+    border-radius: 5px;
 }
 
 .carrosselTrilha {
-    display: flex; /* Alinha os cartões horizontalmente */
-    gap: 20px; 
-    padding: 10px; 
-    transition: transform 0.5s ease-in-out; /* Para a animação de slide */
+    display: flex;
+    gap: 20px;
+    padding: 10px;
+    transition: transform 0.5s ease-in-out;
 }
 
 .cartaoPresente {
-    flex: 0 0 200px; 
-    background-color: #b3d2dc; 
-    border: 1px solid #acc8d1; 
+    flex: 0 0 200px;
+    background-color: #b3d2dc;
+    border: 1px solid #acc8d1;
     border-radius: 8px;
     padding: 20px;
     text-align: center;
     font-family: "Kite One", sans-serif;
-    color: #360A09; /* Cor de texto principal escura */
-    box-shadow: 0px 4px 12px rgba(54, 10, 9, 0.15); /* Sombra suave */
+    color: #360A09;
+    box-shadow: 0px 4px 12px rgba(54, 10, 9, 0.15);
     display: flex;
     flex-direction: column;
-    justify-content: space-between; 
-    min-height: 410px; 
+    justify-content: space-between;
+    min-height: 410px;
 }
 
 .cartaoPresenteImagem {
     width: 100%;
     height: 140px;
-    object-fit: cover; 
+    object-fit: cover;
     border-radius: 4px;
     margin-bottom: 12px;
 }
 
 .cartaoPresenteTitulo {
     font-family: "Architects Daughter", cursive;
-    color: #2d2d29; /* Cor de destaque marrom */
-    font-size: 1.5em; 
+    color: #2d2d29;
+    font-size: 1.5em;
     margin: 5px 0 10px 0;
     line-height: 1.2;
-    min-height: 40px; /* Para títulos de 1 ou 2 linhas */
+    min-height: 40px;
 }
 
 .cartaoPresenteDescCurta {
     font-size: 0.9em;
-    color: #4f4f4f; /* Um cinza escuro para a descrição */
+    color: #4f4f4f;
     line-height: 1.4;
     margin-bottom: 15px;
-    flex-grow: 1; 
+    flex-grow: 1;
 }
 
 .botaoVerDetalhesPresente {
@@ -77,12 +77,12 @@
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
     display: inline-block;
-    width: 90%; 
-    margin: 0 auto; /* Centraliza o botão */
+    width: 90%;
+    margin: 0 auto;
 }
 
 .botaoVerDetalhesPresente:hover {
-    background-color: #1f4f5f; /* Tom mais escuro do marrom */
+    background-color: #1f4f5f;
     transform: translateY(-2px);
 }
 
@@ -90,13 +90,13 @@
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    background-color: rgba(26, 104, 117, 0.7); /* Cor de fundo principal com mais opacidade */
+    background-color: rgba(26, 104, 117, 0.7);
     color: white;
     border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 50%;
-    width: 40px; /* Ajustado */
-    height: 40px; /* Ajustado */
-    font-size: 20px; /* Ajustado */
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
     font-weight: bold;
     cursor: pointer;
     z-index: 20;
@@ -113,60 +113,59 @@
 }
 
 .botaoCarrossel.anterior {
-    left: 0px; 
+    left: 0px;
 }
 
 .botaoCarrossel.proximo {
-    right: 0px; 
+    right: 0px;
 }
 
-/* --- Estilos do Modal --- */
-.modalCamadaFundo { /* ID #modalPresente no HTML */
-    position: fixed; /* Cobre toda a viewport */
+.modalCamadaFundo {
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(14, 59, 85, 0.692); /* Overlay mais escuro, usando tom do body */
+    background-color: rgba(14, 59, 85, 0.692);
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000; /* Garante que fique acima de todo o conteúdo */
+    z-index: 1000;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.4s ease, visibility 0s linear 0.4s; /* Transição para sumir */
-    padding: 15px; /* Para não colar nas bordas em telas pequenas */
+    transition: opacity 0.4s ease, visibility 0s linear 0.4s;
+    padding: 15px;
     box-sizing: border-box;
 }
 
-.modalCamadaFundo.visivel { /* Classe adicionada por JS para mostrar o modal */
+.modalCamadaFundo.visivel {
     opacity: 1;
     visibility: visible;
     transition: opacity 0.4s ease;
-    z-index: 10000 !important; /* Z-index muito alto para garantir que está no topo para depuração */
+    z-index: 10000 !important;
 }
 
 .modalConteudo {
-    background-color: #fdfaf7; /* Mesmo fundo dos cartões */
-    color: #215a6d; /* Cor de texto principal escura */
+    background-color: #fdfaf7;
+    color: #215a6d;
     padding: 25px 30px;
     border-radius: 8px;
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
-    width: 100%; 
-    max-width: 580px; 
+    width: 100%;
+    max-width: 580px;
     position: relative;
     text-align: center;
-    transform: scale(0.9) translateY(15px); /* Efeito inicial para animação "pop" */
+    transform: scale(0.9) translateY(15px);
     transition: transform 0.35s cubic-bezier(0.18, 0.89, 0.32, 1.28), opacity 0.3s ease-out;
-    opacity: 0; /* Começa invisível, JS + .visivel controla */
-    max-height: 90vh; 
-    overflow-y: auto; 
+    opacity: 0;
+    max-height: 90vh;
+    overflow-y: auto;
 }
 
 .modalCamadaFundo.visivel .modalConteudo {
     transform: scale(1) translateY(0);
     opacity: 1;
-    background-color: #dfece6 !important; /* Fundo amarelo para depuração do conteúdo */
+    background-color: #dfece6 !important;
 }
 
 .botaoFecharModal {
@@ -177,15 +176,15 @@
     border: none;
     font-size: 28px;
     font-weight: 300;
-    color: #215a6d; /* Cor de destaque marrom */
+    color: #215a6d;
     cursor: pointer;
     padding: 5px;
     line-height: 1;
     transition: color 0.2s ease, transform 0.2s ease;
-    z-index: 10; /* Para garantir que o botão de fechar esteja acima do conteúdo do modal */
+    z-index: 10;
 }
 .botaoFecharModal:hover {
-    color: #1f4f5f; /* Cor principal escura no hover */
+    color: #1f4f5f;
     transform: scale(1.1);
 }
 
@@ -194,31 +193,31 @@
     max-width: 320px;
     height: auto;
     max-height: 250px;
-    object-fit: contain; /* Para ver a imagem inteira, sem cortar */
-    margin: 0 auto 20px auto; /* Centraliza e adiciona margem inferior */
+    object-fit: contain;
+    margin: 0 auto 20px auto;
     border-radius: 6px;
-    border: 1px solid #e0e0e0; /* Borda subtil na imagem */
+    border: 1px solid #e0e0e0;
 }
 
 .modalPresenteTitulo {
-    font-family: "Architects Daughter", cursive; /* Fonte manuscrita para o título */
-    color: #2d2d29; /* Cor de destaque marrom */
+    font-family: "Architects Daughter", cursive;
+    color: #2d2d29;
     font-size: 2em;
-    margin: 0 0 15px 0; /* Margem inferior */
+    margin: 0 0 15px 0;
 }
 
 .modalPresenteDescricao {
-    font-family: "Kite One", sans-serif; /* Fonte padrão para a descrição */
-    color: #215a6d; /* Cor de texto principal escura */
+    font-family: "Kite One", sans-serif;
+    color: #215a6d;
     font-size: 1em;
     line-height: 1.6;
-    margin-bottom: 25px; 
-    text-align: justify; /* Justificado para melhor leitura de blocos de texto */
-    padding: 0 10px; 
+    margin-bottom: 25px;
+    text-align: justify;
+    padding: 0 10px;
 }
 
 .botaoEscolherPresente {
-    background-color: #215a6d; /* Cor de destaque marrom */
+    background-color: #215a6d;
     color: white;
     font-family: "Kite One", sans-serif;
     font-size: 1.05em;
@@ -228,12 +227,12 @@
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
     display: inline-block;
-    margin-top: 10px; /* Espaço acima do botão */
+    margin-top: 10px;
 }
 
 .botaoEscolherPresente:hover {
-    background-color: #1f4f5f; 
-    transform: translateY(-2px); /* Efeito subtil de elevação */
+    background-color: #1f4f5f;
+    transform: translateY(-2px);
 }
 
 #miniFormularioPresente {
@@ -252,7 +251,7 @@
 }
 
 #miniFormularioPresente input[type="date"], #miniFormularioPresente textarea {
-    width: calc(100% - 22px); 
+    width: calc(100% - 22px);
     padding: 10px;
     margin-bottom: 15px;
     border: 1px solid #ccc;
@@ -268,73 +267,70 @@
 }
 
 #botaoSubmeterIdeia {
-    background-color: #215a6d; 
-    color: white; 
+    background-color: #215a6d;
+    color: white;
     font-family: "Kite One", sans-serif;
-    font-size: 1.05em; 
-    border: none; 
-    padding: 12px 25px; 
+    font-size: 1.05em;
+    border: none;
+    padding: 12px 25px;
     border-radius: 5px;
-    cursor: pointer; 
+    cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
-    display: block; 
-    margin: 10px auto 0 auto; 
+    display: block;
+    margin: 10px auto 0 auto;
     width: auto;
 }
 
-#botaoSubmeterIdeia:hover { 
-    background-color: #1f4f5f; transform: translateY(-2px); 
+#botaoSubmeterIdeia:hover {
+    background-color: #1f4f5f; transform: translateY(-2px);
 }
 
 @media (max-width: 600px) {
-    .modalConteudo { 
-        padding: 20px 15px; max-width: 95%; 
+    .modalConteudo {
+        padding: 20px 15px; max-width: 95%;
     }
-    .modalPresenteTitulo { 
-        font-size: 1.8em; 
+    .modalPresenteTitulo {
+        font-size: 1.8em;
     }
     .modalPresenteDescricao {
-        font-size: 0.95em; 
+        font-size: 0.95em;
     }
     .botaoFecharModal {
-        top: 8px; right: 10px; font-size: 26px; 
+        top: 8px; right: 10px; font-size: 26px;
     }
 }
 
 @media (max-width: 420px) {
-    
     #divimgFlower {
-    width: 90%;
-    max-width: 800px;
-    display: flex;
-    justify-content: center;
-    flex-direction: column-reverse;
-    position: absolute;
-}
+        width: 90%;
+        max-width: 800px;
+        display: flex;
+        justify-content: center;
+        flex-direction: column-reverse;
+        position: absolute;
+    }
 
-#imgflower1, #imgflower2 {
-    width: 100%;
-    height: auto;
-    position: revert;
-    z-index: 0; 
-    pointer-events: none; 
-    mix-blend-mode: screen; 
-    filter: contrast(300%); 
-}
+    #imgflower1, #imgflower2 {
+        width: 100%;
+        height: auto;
+        position: revert;
+        z-index: 0;
+        pointer-events: none;
+        mix-blend-mode: screen;
+        filter: contrast(300%);
+    }
 
-#imgflower1 {
-    right: 0; 
-            
-}
+    #imgflower1 {
+        right: 0;
+    }
 
-#imgflower2 {
-    left: 0; 
-}
-
+    #imgflower2 {
+        left: 0;
+    }
 }
 
 @media (min-width: 421px) and (max-width: 1700px) {
     #divimgFlower {
-        display: none !important; 
+        display: none !important;
     }
 }
