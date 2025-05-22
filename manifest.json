@@ -5,7 +5,7 @@
   "start_url": "html/presentes.html",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#007bff",
+  "theme_color": "#2d2d29",
   "orientation": "portrait-primary",
   "icons": [
     {
