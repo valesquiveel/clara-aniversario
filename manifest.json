@@ -2,7 +2,7 @@
   "name": "Ideias para nós",
   "short_name": "Ideias",
   "description": "App para criar ideias de presentes para Clara.",
-  "start_url": "/html/presentes.html",
+  "start_url": "html/presentes.html",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#007bff",
