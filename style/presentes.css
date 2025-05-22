@@ -300,3 +300,41 @@
         top: 8px; right: 10px; font-size: 26px; 
     }
 }
+
+@media (max-width: 420px) {
+    
+    #divimgFlower {
+    width: 90%;
+    max-width: 800px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column-reverse;
+    position: absolute;
+}
+
+#imgflower1, #imgflower2 {
+    width: 100%;
+    height: auto;
+    position: revert;
+    z-index: 0; 
+    pointer-events: none; 
+    mix-blend-mode: screen; 
+    filter: contrast(300%); 
+}
+
+#imgflower1 {
+    right: 0; 
+            
+}
+
+#imgflower2 {
+    left: 0; 
+}
+
+}
+
+@media (min-width: 421px) and (max-width: 1700px) {
+    #divimgFlower {
+        display: none !important; 
+    }
+}
