@@ -1,0 +1,24 @@
+{
+  "name": "Ideias para nós",
+  "short_name": "Ideias",
+  "description": "App para criar ideias de presentes para Clara.",
+  "start_url": "/html/presentes.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#007bff",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "images/2640131.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "images/2640131.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
