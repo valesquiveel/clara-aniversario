@@ -4,7 +4,7 @@ const urlsToCache = [
   '/html/presentes.html', // Sua página inicial (se for diferente de /)
   '/style/presentes.css', // Seu arquivo CSS principal
   '/js/presentes.js', // Seu arquivo JS principal
-  '/images/2640131.png',
+  'images/2640131_192x192.png',
   '/images/2640131.png'
   // Adicione aqui outros arquivos estáticos importantes (imagens, fontes, etc.)
 ];
