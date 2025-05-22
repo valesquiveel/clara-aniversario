@@ -1,21 +1,50 @@
 document.addEventListener('DOMContentLoaded', () => {
+    const telaInicial = document.getElementById('tela-inicial');
+    const botaoEntrarPresentes = document.getElementById('botao-entrar-presentes');
+    const conteudoPrincipalPresentes = document.getElementById('conteudo-principal-presentes');
+
+    if (botaoEntrarPresentes && telaInicial && conteudoPrincipalPresentes) {
+        botaoEntrarPresentes.addEventListener('click', () => {
+            telaInicial.classList.add('escondida');
+            setTimeout(() => {
+                telaInicial.style.display = 'none';
+            }, 500);
+            conteudoPrincipalPresentes.style.display = 'block';
+            window.dispatchEvent(new Event('resize'));
+        });
+    } else {
+        if (conteudoPrincipalPresentes) {
+            conteudoPrincipalPresentes.style.display = 'block';
+        }
+    }
+
     const trilhaCarrossel = document.querySelector('.carrosselTrilha');
-    const botaoProximo = document.getElementById('botaoCarrosselProximo');
-    const botaoAnterior = document.getElementById('botaoCarrosselAnterior');
+    const botaoProximoCarrossel = document.getElementById('botaoCarrosselProximo');
+    const botaoAnteriorCarrossel = document.getElementById('botaoCarrosselAnterior');
     const janelaCarrossel = document.querySelector('.carrosselJanela');
     
-    let idDoPresenteNoModalAtual = null;
+    let idDoPresenteNoModalAtual = null; 
 
     if (trilhaCarrossel) {
         const cartoesPresenteCarrossel = Array.from(trilhaCarrossel.children);
-        if (cartoesPresenteCarrossel.length > 0 && botaoProximo && botaoAnterior && janelaCarrossel) {
-            let larguraCartao = cartoesPresenteCarrossel[0].getBoundingClientRect().width;
-            let gapCarrossel = parseFloat(getComputedStyle(trilhaCarrossel).gap) || 20;
+        if (cartoesPresenteCarrossel.length > 0 && botaoProximoCarrossel && botaoAnteriorCarrossel && janelaCarrossel) {
+            let larguraCartao = 0;
+            let gapCarrossel = 0;
             let indiceAtual = 0;
-            let cartoesVisiveis = Math.max(1, Math.floor(janelaCarrossel.offsetWidth / (larguraCartao + gapCarrossel)));
+            let cartoesVisiveis = 1;
+
+            const calcularDimensoesCarrossel = () => {
+                if (cartoesPresenteCarrossel.length === 0 || !janelaCarrossel.offsetWidth) return;
+                larguraCartao = cartoesPresenteCarrossel[0].getBoundingClientRect().width;
+                const estiloTrilha = getComputedStyle(trilhaCarrossel);
+                gapCarrossel = parseFloat(estiloTrilha.gap) || (parseFloat(estiloTrilha.columnGap) || 20);
+                cartoesVisiveis = Math.max(1, Math.floor(janelaCarrossel.offsetWidth / (larguraCartao + gapCarrossel)));
+                indiceAtual = Math.max(0, Math.min(indiceAtual, cartoesPresenteCarrossel.length - cartoesVisiveis));
+            };
 
             const moverParaCartao = (indiceAlvo) => {
-                if (!trilhaCarrossel) return;
+                if (!trilhaCarrossel || cartoesPresenteCarrossel.length === 0) return;
+                calcularDimensoesCarrossel();
                 const novoIndice = Math.max(0, Math.min(indiceAlvo, cartoesPresenteCarrossel.length - cartoesVisiveis));
                 const deslocamento = novoIndice * (larguraCartao + gapCarrossel);
                 trilhaCarrossel.style.transform = `translateX(-${deslocamento}px)`;
@@ -24,33 +53,42 @@ document.addEventListener('DOMContentLoaded', () => {
             };
 
             const atualizarBotoesCarrossel = () => {
-                if (!botaoAnterior || !botaoProximo) return;
-                botaoAnterior.style.display = indiceAtual === 0 ? 'none' : 'flex';
+                if (!botaoAnteriorCarrossel || !botaoProximoCarrossel || cartoesPresenteCarrossel.length === 0) return;
+                botaoAnteriorCarrossel.style.display = indiceAtual === 0 ? 'none' : 'flex';
                 const ultimoIndicePossivel = Math.max(0, cartoesPresenteCarrossel.length - cartoesVisiveis);
-                botaoProximo.style.display = indiceAtual >= ultimoIndicePossivel ? 'none' : 'flex';
+                botaoProximoCarrossel.style.display = indiceAtual >= ultimoIndicePossivel ? 'none' : 'flex';
             };
 
-            botaoProximo.addEventListener('click', () => moverParaCartao(indiceAtual + 1));
-            botaoAnterior.addEventListener('click', () => moverParaCartao(indiceAtual - 1));
+            botaoProximoCarrossel.addEventListener('click', () => moverParaCartao(indiceAtual + 1));
+            botaoAnteriorCarrossel.addEventListener('click', () => moverParaCartao(indiceAtual - 1));
 
             window.addEventListener('resize', () => {
-                if (cartoesPresenteCarrossel.length > 0 && janelaCarrossel && trilhaCarrossel) {
-                    larguraCartao = cartoesPresenteCarrossel[0].getBoundingClientRect().width;
-                    gapCarrossel = parseFloat(getComputedStyle(trilhaCarrossel).gap) || 20;
-                    cartoesVisiveis = Math.max(1, Math.floor(janelaCarrossel.offsetWidth / (larguraCartao + gapCarrossel)));
+                if (cartoesPresenteCarrossel.length > 0 && janelaCarrossel && trilhaCarrossel && janelaCarrossel.offsetWidth > 0) {
                     moverParaCartao(indiceAtual);
-                    atualizarBotoesCarrossel();
                 }
             });
-            moverParaCartao(0);
-            atualizarBotoesCarrossel();
+            
+            if (janelaCarrossel.offsetWidth > 0) {
+                 moverParaCartao(0);
+            } else {
+                const observer = new IntersectionObserver((entries) => {
+                    if (entries[0].isIntersecting) {
+                        moverParaCartao(0);
+                        observer.disconnect();
+                    }
+                }, { threshold: 0.1 });
+                observer.observe(janelaCarrossel);
+            }
+        } else {
+            if (botaoProximoCarrossel) botaoProximoCarrossel.style.display = 'none';
+            if (botaoAnteriorCarrossel) botaoAnteriorCarrossel.style.display = 'none';
         }
     }
 
     const modalPresente = document.getElementById('modalPresente');
     const botaoFecharModal = document.querySelector('.botaoFecharModal');
     const botoesVerDetalhes = document.querySelectorAll('.botaoVerDetalhesPresente');
-    const modalImagemPresente = document.getElementById('modalImagemPresente');
+    const modalImagemPresente = document.getElementById('modalImagemPresente'); 
     const modalTituloPresente = document.getElementById('modalTituloPresente');
     const modalDescricaoPresente = document.getElementById('modalDescricaoPresente');
     
@@ -61,10 +99,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const botaoSubmeterIdeia = document.getElementById('botaoSubmeterIdeia');
     const botaoAcaoModalPrincipal = document.getElementById('botaoAcaoModalPrincipal');
 
-    let tituloOriginalDoPresenteSelecionado = "";
+    let tituloOriginalDoPresenteSelecionado = ""; 
 
-    if (modalPresente && botaoFecharModal && botoesVerDetalhes.length > 0 && modalImagemPresente && modalTituloPresente && modalDescricaoPresente && miniFormulario && botaoAcaoModalPrincipal && botaoSubmeterIdeia) {
-        
+    if (modalPresente && botaoFecharModal && modalImagemPresente && modalTituloPresente && modalDescricaoPresente && miniFormulario && botaoAcaoModalPrincipal && botaoSubmeterIdeia) {
         const resetModalToDefaultView = () => {
             if (modalImagemPresente) modalImagemPresente.style.display = 'block';
             if (modalDescricaoPresente) modalDescricaoPresente.style.display = 'block';
@@ -80,13 +117,11 @@ document.addEventListener('DOMContentLoaded', () => {
         
         const abrirModal = (cartao) => {
             resetModalToDefaultView();
-
-            const presenteId = cartao.dataset.presenteId;
-            idDoPresenteNoModalAtual = presenteId;
-
+            const presenteId = cartao.dataset.presenteId; 
+            idDoPresenteNoModalAtual = presenteId; 
             tituloOriginalDoPresenteSelecionado = cartao.dataset.presenteTitulo || "Presente";
             const descricao = cartao.dataset.presenteDescricao;
-            const imagemSrc = cartao.dataset.presenteImagemReal || cartao.querySelector('.cartaoPresenteImagem').src;
+            const imagemSrc = cartao.dataset.presenteImagemReal || (cartao.querySelector('.cartaoPresenteImagem') ? cartao.querySelector('.cartaoPresenteImagem').src : 'https://placehold.co/300x200/EFEFEF/AAAAAA&text=Imagem');
 
             modalTituloPresente.textContent = tituloOriginalDoPresenteSelecionado;
             modalDescricaoPresente.textContent = descricao;
@@ -96,8 +131,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 modalImagemPresente.alt = tituloOriginalDoPresenteSelecionado;
             }
             
-            if (idDoPresenteNoModalAtual !== '1') {
-                botaoAcaoModalPrincipal.textContent = 'Criar!';
+            if (idDoPresenteNoModalAtual === 'add') {
+                modalTituloPresente.textContent = "Nova Ideia de Presente";
+                if(modalDescricaoPresente) modalDescricaoPresente.style.display = 'none'; 
+                if(modalImagemPresente) modalImagemPresente.style.display = 'none'; 
+                if(miniFormulario) miniFormulario.style.display = 'block';
+                if(botaoAcaoModalPrincipal) botaoAcaoModalPrincipal.style.display = 'none';
             } else {
                 botaoAcaoModalPrincipal.textContent = 'Confirmar!';
             }
@@ -109,15 +148,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const fecharModal = () => {
             modalPresente.classList.remove('visivel');
             document.body.style.overflow = '';
-            resetModalToDefaultView();
-            
+            resetModalToDefaultView(); 
             if (botaoAcaoModalPrincipal) {
                 botaoAcaoModalPrincipal.textContent = 'Confirmar!';
             }
-            idDoPresenteNoModalAtual = null;
+            idDoPresenteNoModalAtual = null; 
         };
 
-        botoesVerDetalhes.forEach(botao => {
+        document.querySelectorAll('.botaoVerDetalhesPresente').forEach(botao => {
             botao.addEventListener('click', (evento) => {
                 const cartaoClicado = evento.currentTarget.closest('.cartaoPresente');
                 if (cartaoClicado) abrirModal(cartaoClicado);
@@ -133,17 +171,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         botaoAcaoModalPrincipal.addEventListener('click', () => {
-            if (botaoAcaoModalPrincipal.textContent === 'Criar!') {
-                if(modalDescricaoPresente) modalDescricaoPresente.style.display = 'none';
-                if(modalImagemPresente) modalImagemPresente.style.display = 'none';
-                if(miniFormulario) miniFormulario.style.display = 'block';
-                if(botaoAcaoModalPrincipal) botaoAcaoModalPrincipal.style.display = 'none';
-            } else {
-                enviarEmailParaAppsScript({
-                    tituloPresente: modalTituloPresente.textContent,
-                    tipoEnvio: 'direto'
-                });
-            }
+            enviarEmailParaAppsScript({
+                tituloPresente: modalTituloPresente.textContent, 
+                tipoEnvio: 'direto' 
+            });
         });
         
         botaoSubmeterIdeia.addEventListener('click', () => {
@@ -152,16 +183,21 @@ document.addEventListener('DOMContentLoaded', () => {
             const observacao = inputObservacaoPresente.value.trim();
 
             if (!ideia || !data) {
-                alert("Por favor, preencha a sua ideia e a data sugerida.");
+                const feedbackForm = document.getElementById('feedbackFormulario');
+                if (feedbackForm) {
+                    feedbackForm.textContent = "Por favor, preencha a sua ideia e a data sugerida.";
+                    feedbackForm.style.color = 'red';
+                    setTimeout(() => { feedbackForm.textContent = ''; }, 3000);
+                }
                 return;
             }
             
             enviarEmailParaAppsScript({
-                tituloPresente: tituloOriginalDoPresenteSelecionado,
+                tituloPresente: "Nova Ideia de Presente",
                 ideiaDatePresente: ideia,
                 dataEscolhida: data,
                 observacao: observacao,
-                tipoEnvio: 'formulario'
+                tipoEnvio: 'formulario' 
             });
         });
 
@@ -172,75 +208,67 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
+            const textoOriginalBotao = botaoAcionado.textContent;
             botaoAcionado.disabled = true;
             botaoAcionado.textContent = 'A Enviar...';
 
-            const seuEmailReal = 'valentinawpp25@gmail.com';
-            const emailDelaReal = 'valesquiveel@gmail.com';
-            const nomeRemetenteOpcional = 'Valentina';
-            const urlDoSeuGoogleAppsScript = 'https://script.google.com/macros/s/AKfycbxl2YNXgMHvSCli6DZXRrNZkgRdyA3fXyTWYsw_0miZp9UMRBCHrBzntYfDq1Sh4dTxhQ/exec';
+            const seuEmailReal = 'valentinawpp25@gmail.com'; 
+            const emailDelaReal = 'valesquiveel@gmail.com'; 
+            const nomeRemetenteOpcional = 'Valentina'; 
+            const urlDoSeuGoogleAppsScript = 'https://script.google.com/macros/s/AKfycbzBoy_vW-f3dAYYHr-MRKHTAUAiKay5ig9FWc_hHF7AWqls4FxsuqPQvofb4JAjfEGzQw/exec';
 
             const dadosParaEnviar = {
                 seuEmail: seuEmailReal,
                 emailDela: emailDelaReal,
                 nomeRemetente: nomeRemetenteOpcional,
-                tituloPresenteOriginal: dadosDoPresente.tituloPresente,
-                ideiaDatePresente: dadosDoPresente.ideiaDatePresente || "",
-                dataEscolhida: dadosDoPresente.dataEscolhida || "",
-                observacao: dadosDoPresente.observacao || "",
-                tipoEscolha: dadosDoPresente.tipoEnvio
+                tituloPresenteOriginal: dadosDoPresente.tituloPresente, 
+                ideiaDatePresente: dadosDoPresente.ideiaDatePresente || "", 
+                dataEscolhida: dadosDoPresente.dataEscolhida || "",       
+                observacao: dadosDoPresente.observacao || "",            
+                tipoEscolha: dadosDoPresente.tipoEnvio 
             };
             
             fetch(urlDoSeuGoogleAppsScript, {
                 method: 'POST',
-                mode: 'no-cors',
+                mode: 'no-cors', 
                 cache: 'no-cache',
                 headers: {
-                    'Content-Type': 'text/plain;charset=utf-8',
+                   'Content-Type': 'text/plain;charset=utf-8', 
                 },
-                body: JSON.stringify(dadosParaEnviar),
+                body: JSON.stringify(dadosParaEnviar), 
             })
             .then(response => {
-                alert('Notificação enviada com sucesso! Verifique a sua caixa de entrada.');
-                fecharModal();
+                const feedbackModal = document.getElementById('feedbackModal');
+                if (feedbackModal) {
+                    feedbackModal.textContent = 'Notificação enviada com sucesso! Verifique a sua caixa de entrada.';
+                    feedbackModal.style.color = 'green';
+                }
+                setTimeout(() => {
+                    fecharModal(); 
+                    if(feedbackModal) feedbackModal.textContent = '';
+                }, 2500);
             })
             .catch(error => {
-                alert('Ocorreu um erro de rede ao tentar enviar a notificação.');
+                const feedbackModal = document.getElementById('feedbackModal');
+                if (feedbackModal) {
+                    feedbackModal.textContent = 'Ocorreu um erro de rede ao tentar enviar a notificação.';
+                    feedbackModal.style.color = 'red';
+                }
             })
             .finally(() => {
                 botaoAcionado.disabled = false;
-                if(botaoAcionado === botaoSubmeterIdeia) {
-                    botaoAcionado.textContent = 'Enviar Ideia';
-                }
+                botaoAcionado.textContent = textoOriginalBotao;
             });
         }
+    }
 
-    } else {
-        // Este console.error será mantido pois é uma mensagem de erro importante para o desenvolvedor
-        console.error("ERRO CRÍTICO NA CONFIGURAÇÃO DO MODAL OU FORMULÁRIO. Elementos em falta:", {
-            modalPresente: !!modalPresente,
-            botaoFecharModal: !!botaoFecharModal,
-            botoesVerDetalhes: botoesVerDetalhes.length,
-            modalImagemPresente: !!modalImagemPresente,
-            modalTituloPresente: !!modalTituloPresente,
-            modalDescricaoPresente: !!modalDescricaoPresente,
-            miniFormulario: !!miniFormulario,
-            botaoAcaoModalPrincipal: !!botaoAcaoModalPrincipal,
-            botaoSubmeterIdeia: !!botaoSubmeterIdeia
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js')
+                .then(registration => {
+                })
+                .catch(error => {
+                });
         });
     }
 });
-
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('../sw.js')
-        .then(registration => {
-            // Mantido pois é um log útil para o desenvolvedor
-            console.log('Service Worker registrado com sucesso:', registration);
-        })
-        .catch(error => {
-            // Mantido pois é um log útil para o desenvolvedor
-            console.log('Falha ao registrar o Service Worker:', error);
-        });
-    });
-}
