@@ -113,10 +113,10 @@ main {
 }
             
             .hf { /* Ajusta o tamanho da fonte do header/footer em telas menores */
-                 font-size: clamp(18px, 3.5vw, 26px);
+                 font-size: clamp(14px, 3.5vw, 24px);
             }
              .hf p {
-                font-size: clamp(16px, 3vw, 24px);
+                font-size: clamp(14px, 3vw, 24px);
             }
         }
 
