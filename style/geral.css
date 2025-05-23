@@ -43,7 +43,6 @@ main {
     display: flex;
     justify-content: center;
     position: relative;
-    margin-bottom: 15px;
 }
 
 #imgflower1, #imgflower2 {
@@ -87,7 +86,7 @@ main {
     }
 
     #Rect1 {
-        width: 85%;
+        width: 90%;
     }
     
     .hf {
