@@ -178,7 +178,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const seuEmailReal = 'valentinawpp25@gmail.com';
             const emailDelaReal = 'valesquiveel@gmail.com';
             const nomeRemetenteOpcional = 'Valentina';
-            const urlDoSeuGoogleAppsScript = 'https://script.google.com/macros/s/AKfycbxl2YNXgMHvSCli6DZXRrNZkgRdyA3fXyTWYsw_0miZp9UMRBCHrBzntYfDq1Sh4dTxhQ/exec';
+            const urlDoSeuGoogleAppsScript = 'https://script.google.com/macros/s/AKfycbxpZ5czO3YSVx284PkSBmeA3Pxfes3-MvsAXJPAh9nPwpbFGsxWb-DVdHRgvcyJtv0fhw/exec';
 
             const dadosParaEnviar = {
                 seuEmail: seuEmailReal,
