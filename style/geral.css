@@ -54,6 +54,7 @@ main {
     pointer-events: none;
     mix-blend-mode: screen;
     filter: contrast(100%);
+    opacity: 0.7;
 }
 
 #imgflower1 {
