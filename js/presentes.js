@@ -176,7 +176,7 @@ document.addEventListener('DOMContentLoaded', () => {
             botaoAcionado.textContent = 'A Enviar...';
 
             const seuEmailReal = 'valentinawpp25@gmail.com';
-            const emailDelaReal = 'valesquiveel@gmail.com';
+            const emailDelaReal = 'qpanaclara@gmail.com';
             const nomeRemetenteOpcional = 'Valentina';
             const urlDoSeuGoogleAppsScript = 'https://script.google.com/macros/s/AKfycbxpZ5czO3YSVx284PkSBmeA3Pxfes3-MvsAXJPAh9nPwpbFGsxWb-DVdHRgvcyJtv0fhw/exec';
 
