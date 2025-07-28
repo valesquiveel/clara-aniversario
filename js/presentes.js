@@ -96,7 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 modalImagemPresente.alt = tituloOriginalDoPresenteSelecionado;
             }
             
-            if (idDoPresenteNoModalAtual !== '1') {
+            if (idDoPresenteNoModalAtual !== '1, 2') {
                 botaoAcaoModalPrincipal.textContent = 'Criar!';
             } else {
                 botaoAcaoModalPrincipal.textContent = 'Confirmar!';
