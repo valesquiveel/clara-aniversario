@@ -1,0 +1,12 @@
+[
+  {
+    "origin": [
+      "https://refactored-space-winner-r4g4vgprqq6r3x7ww-5503.app.github.dev",
+      "http://localhost:5503",
+      "http://127.0.0.1:5503"
+    ],
+    "method": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    "maxAgeSeconds": 3600
+  }
+]
+

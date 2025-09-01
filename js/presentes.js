@@ -1,10 +1,10 @@
 const firebaseConfig = {
-            apiKey: "AIzaSyA-HLW_FtlM6Jofs-FkhqFlOIKRsx4aKH0",
-            authDomain: "aniversario-clara.firebaseapp.com",
-            projectId: "aniversario-clara",
-            storageBucket: "aniversario-clara.appspot.com",
-            messagingSenderId: "130866696549",
-            appId: "1:130866696549:web:4b08ba23f681d64d21d18c"
+            apiKey: "AIzaSyA8Mo82Lmct-jme4JOF70SYpX0faQ_mF6Y",
+            authDomain: "clara-aniversario.firebaseapp.com",
+            projectId: "clara-aniversario",
+            storageBucket: "clara-aniversario.firebasestorage.app",
+            messagingSenderId: "971175473120",
+            appId: "1:971175473120:web:2f73feb1070c216abc0585"
         };
 
 firebase.initializeApp(firebaseConfig);
@@ -144,38 +144,68 @@ firebase.initializeApp(firebaseConfig);
                 currentCardId = null;
             }
 
-            async function handleSaveIdea(e) {
-                e.preventDefault();
-                const submitButton = editModeForm.querySelector('button[type="submit"]');
-                submitButton.textContent = 'A Salvar...';
-                submitButton.disabled = true;
+    async function handleSaveIdea(e) {
+    e.preventDefault();
+    const submitButton = editModeForm.querySelector('button[type="submit"]');
+    // Se você estiver a usar o spinner, não precisa mudar o texto do botão aqui.
+    // submitButton.textContent = 'A Salvar...'; 
+    submitButton.disabled = true;
 
-                const title = ideaTitleInput.value;
-                const description = ideaDescriptionInput.value;
-                const file = imageUpload.files[0];
-                
-                try {
-                    let updateData = { title, description };
+    // Recomendo usar o spinner que implementamos para um melhor feedback visual
+    const spinner = document.getElementById('spinner');
+    if (spinner) spinner.style.display = 'flex';
 
-                    if (file) {
-                        const filePath = `cards/${currentCardId}/${file.name}`;
-                        const fileRef = storage.ref(filePath);
-                        const snapshot = await fileRef.put(file);
-                        updateData.imageUrl = await snapshot.ref.getDownloadURL();
-                    }
-                    
-                    await db.collection('couples').doc(coupleId).collection('cards').doc(currentCardId).set(updateData, { merge: true });
-                    
-                    closeModal();
-                } catch (error) {
-                    console.error("Erro ao salvar ideia: ", error);
-                    alert("Ocorreu um erro ao salvar. Tente novamente.");
-                } finally {
-                    submitButton.textContent = 'Salvar Ideia';
-                    submitButton.disabled = false;
-                }
-            }
+    try {
+        // 1. Criamos um único objeto para os dados que vamos salvar.
+        // Começa com o título e a descrição que sempre existem.
+        const dataToSave = {
+            title: ideaTitleInput.value,
+            description: ideaDescriptionInput.value,
+        };
 
+        const file = imageUpload.files[0];
+
+   
+        if (file) {
+            const options = {
+                maxSizeMB: 1,
+                maxWidthOrHeight: 800,
+                useWebWorker: true,
+                maxIteration: 10,
+                exifOrientation: 1,
+                fileType: "image/webp",
+                initialQuality: 0.9,
+            };
+
+            console.log(`Imagem original: ${file.name}, tamanho: ${(file.size / 1024 / 1024).toFixed(2)} MB`);
+            
+            const compressedFile = await imageCompression(file, options);
+            console.log(`Imagem comprimida: ${compressedFile.name}, tamanho: ${(compressedFile.size / 1024 / 1024).toFixed(2)} MB`);
+
+            const filePath = `cards/${currentCardId}/${Date.now()}_${compressedFile.name}`;
+            const fileRef = storage.ref(filePath);
+            const snapshot = await fileRef.put(compressedFile);
+            
+            // 3. Obtemos a URL e a adicionamos ao nosso objeto `dataToSave`.
+            const imageUrl = await snapshot.ref.getDownloadURL();
+            dataToSave.imageUrl = imageUrl; 
+        }
+
+        // 4. Salvamos o objeto `dataToSave` no Firestore.
+        // Ele conterá o título e a descrição, e a imageUrl SE uma imagem foi processada.
+        await db.collection('couples').doc(coupleId).collection('cards').doc(currentCardId).set(dataToSave, { merge: true });
+        
+        closeModal();
+
+    } catch (error) {
+        console.error("Erro ao salvar ideia: ", error);
+        alert("Ocorreu um erro ao salvar. Tente novamente.");
+    } finally {
+        submitButton.textContent = 'Salvar Ideia';
+        submitButton.disabled = false;
+        if (spinner) spinner.style.display = 'none';
+    }
+}
             function handleSendEmail(e) {
                 e.preventDefault();
                 const urlDoSeuGoogleAppsScript = 'https://script.google.com/macros/s/AKfycbxpZ5czO3YSVx284PkSBmeA3Pxfes3-MvsAXJPAh9nPwpbFGsxWb-DVdHRgvcyJtv0fhw/exec';
