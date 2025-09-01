@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalTitle = document.getElementById('modalTitulo');
     const modalDescription = document.getElementById('modalDescricao');
     const sendEmailBtn = document.getElementById('sendEmailBtn');
-    const editBtn = document.getElementById('editBtn');
+    const editBtn = document.getElementById('editBtn'); // LINHA RESTAURADA
     const imageUpload = document.getElementById('imageUpload');
     const imagePreviewContainer = document.getElementById('imagePreviewContainer');
     const imagePreview = document.getElementById('imagePreview');
@@ -39,16 +39,13 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentCardId = null;
     const coupleId = "casal_unico_id";
 
-    // --- FUNÇÕES PRINCIPAIS RESTAURADAS ---
+    // --- FUNÇÕES PRINCIPAIS ---
 
     function loadCards() {
         db.collection('couples').doc(coupleId).collection('cards').onSnapshot(snapshot => {
             giftCardContainer.innerHTML = '';
             if (snapshot.empty) {
-                // Se estiver vazio, cria 3 cartões de exemplo
-                addNewCard();
-                addNewCard();
-                addNewCard();
+                addNewCard(); addNewCard(); addNewCard();
             } else {
                 snapshot.forEach(doc => {
                     const cardElement = createCardElement(doc.id, doc.data());
@@ -62,11 +59,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const card = document.createElement('div');
         card.className = 'cartaoPresente';
         card.dataset.id = id;
-
         const imageUrl = data.imageUrl || 'https://placehold.co/220x160/215a6d/FDFAF7?text=Nova+Ideia';
         const title = data.title || 'Um Momento Só Nosso';
         const description = data.description ? (data.description.substring(0, 50) + '...') : 'Crie aqui a sua ideia de presente!';
-
         card.innerHTML = `
             <button class="botaoDeletarCard" aria-label="Apagar cartão">&times;</button>
             <img src="${imageUrl}" alt="${title}" class="cartaoPresenteImagem">
@@ -113,12 +108,10 @@ document.addEventListener('DOMContentLoaded', () => {
         viewMode.style.display = 'none';
         editModeForm.style.display = 'none';
         emailForm.style.display = 'none';
-
         try {
             const doc = await db.collection('couples').doc(coupleId).collection('cards').doc(currentCardId).get();
             if (!doc.exists) return;
             const cardData = doc.data();
-
             if (cardData.title) {
                 viewMode.style.display = 'block';
                 modalTitle.textContent = cardData.title;
@@ -148,27 +141,16 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
         const submitButton = editModeForm.querySelector('button[type="submit"]');
         submitButton.disabled = true;
-
         const spinner = document.getElementById('spinner');
         if (spinner) spinner.style.display = 'flex';
-
         try {
             const dataToSave = {
                 title: ideaTitleInput.value,
                 description: ideaDescriptionInput.value,
             };
             const file = imageUpload.files[0];
-
             if (file) {
-                const options = {
-                    maxSizeMB: 1,
-                    maxWidthOrHeight: 800,
-                    useWebWorker: true,
-                    maxIteration: 10,
-                    exifOrientation: 1,
-                    fileType: "image/webp",
-                    initialQuality: 0.9,
-                };
+                const options = { maxSizeMB: 1, maxWidthOrHeight: 800, useWebWorker: true, maxIteration: 10, exifOrientation: 1, fileType: "image/webp", initialQuality: 0.9 };
                 const compressedFile = await imageCompression(file, options);
                 const filePath = `cards/${currentCardId}/${Date.now()}_${compressedFile.name}`;
                 const fileRef = storage.ref(filePath);
@@ -176,7 +158,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 const imageUrl = await snapshot.ref.getDownloadURL();
                 dataToSave.imageUrl = imageUrl;
             }
-
             await db.collection('couples').doc(coupleId).collection('cards').doc(currentCardId).set(dataToSave, { merge: true });
             closeModal();
         } catch (error) {
@@ -191,15 +172,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function handleSendEmail(e) {
         e.preventDefault();
-        const urlDoSeuGoogleAppsScript = 'https://script.google.com/macros/s/AKfycbw0oWeR2rGls5JX0gd7tlo_vq9La647N7pthgQ_FlDyKG6FxhpAQDt28JmIEXuEGpfoCQ/exec';
+        const urlDoSeuGoogleAppsScript = 'https://script.google.com/macros/s/AKfycbzK479spWFVZrQtbVYqF3VUTr3gKrKwXBstO7pPTVXnZlvqDZ_nNjTG26LQlXFNLhUPsQ/exec';
         const seuEmail = "valentinawpp25@gmail.com";
         const emailDela = "qpanaclara@gmail.com";
-
         if (!dateInput.value) {
             alert("Por favor, preencha a data sugerida.");
             return;
         }
-
         const emailData = {
             seuEmail: seuEmail,
             emailDela: emailDela,
@@ -208,10 +187,8 @@ document.addEventListener('DOMContentLoaded', () => {
             dataEscolhida: dateInput.value,
             observacao: observationInput.value,
         };
-
         submitEmailBtn.disabled = true;
         submitEmailBtn.textContent = 'A Enviar...';
-
         try {
             const response = await fetch(urlDoSeuGoogleAppsScript, {
                 method: 'POST',
