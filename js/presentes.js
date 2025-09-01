@@ -206,55 +206,61 @@ firebase.initializeApp(firebaseConfig);
         if (spinner) spinner.style.display = 'none';
     }
 }
-            function handleSendEmail(e) {
-                e.preventDefault();
-                const urlDoSeuGoogleAppsScript = 'https://script.google.com/macros/s/AKfycbxpZ5czO3YSVx284PkSBmeA3Pxfes3-MvsAXJPAh9nPwpbFGsxWb-DVdHRgvcyJtv0fhw/exec';
-                const seuEmail = "valentinawpp25@gmail.com";
-                const emailDela = "qpanaclara@gmail.com"; 
+            async function handleSendEmail(e) {
+    e.preventDefault();
+    const urlDoSeuGoogleAppsScript = 'https://script.google.com/macros/s/AKfycbzK479spWFVZrQtbVYqF3VUTr3gKrKwXBstO7pPTVXnZlvqDZ_nNjTG26LQlXFNLhUPsQ/exec'; // <-- VAI PRECISAR DE ATUALIZAR ESTA URL
+    const seuEmail = "valentinawpp25@gmail.com";
+    const emailDela = "qpanaclara@gmail.com";
 
-                if (urlDoSeuGoogleAppsScript.includes('AKfycb') && (seuEmail === "valentinawpp25@gmail.com" || emailDela === "qpanaclara@gmail.com")) {
-                    alert('Por favor, configure seu e-mail e o e-mail de destino no código JavaScript.');
-                    return;
-                }
+    // ... (as suas validações continuam iguais)
+    if (!dateInput.value) {
+        alert("Por favor, preencha a data sugerida.");
+        return;
+    }
 
-                const data = dateInput.value;
-                if (!data) {
-                    alert("Por favor, preencha a data sugerida.");
-                    return;
-                }
+    const emailData = {
+        seuEmail: seuEmail,
+        emailDela: emailDela,
+        tituloPresente: modalTitle.textContent,
+        ideiaDatePresente: modalDescription.textContent, // Corrigi o nome da variável para consistência
+        dataEscolhida: dateInput.value,
+        observacao: observationInput.value,
+    };
 
-                const emailData = {
-                    seuEmail: seuEmail,
-                    emailDela: emailDela,
-                    tituloPresente: modalTitle.textContent,
-                    ideiaDatePresente: modalDescription.textContent,
-                    dataEscolhida: data,
-                    observacao: observationInput.value,
-                };
-                
-                submitEmailBtn.disabled = true;
-                submitEmailBtn.textContent = 'A Enviar...';
+    submitEmailBtn.disabled = true;
+    submitEmailBtn.textContent = 'A Enviar...';
 
-                fetch(urlDoSeuGoogleAppsScript, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    cache: 'no-cache',
-                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                    body: JSON.stringify(emailData)
-                })
-                .then(() => {
-                    alert(`Ideia "${emailData.tituloPresente}" enviada com sucesso!`);
-                })
-                .catch(error => {
-                    console.error('Erro ao tentar enviar e-mail:', error);
-                    alert('Ocorreu um erro de rede ao tentar enviar a notificação.');
-                })
-                .finally(() => {
-                    submitEmailBtn.disabled = false;
-                    submitEmailBtn.textContent = 'Confirmar Envio';
-                    closeModal(); // **CORREÇÃO:** Fecha o modal aqui, garantindo que ele sempre feche.
-                });
-            }
+    try {
+        const response = await fetch(urlDoSeuGoogleAppsScript, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json', // Alterado para o tipo correto.
+            },
+            body: JSON.stringify(emailData),
+        });
+
+        // O 'fetch' não gera erro para respostas 4xx/5xx, então verificamos manualmente.
+        if (!response.ok) {
+            throw new Error(`O servidor respondeu com um erro: ${response.statusText}`);
+        }
+
+        const result = await response.json(); // Esperamos uma resposta JSON do script
+
+        if (result.status === "success") {
+            alert(`Ideia "${emailData.tituloPresente}" enviada com sucesso!`);
+        } else {
+            throw new Error(result.message || "Ocorreu um erro desconhecido no script.");
+        }
+        
+    } catch (error) {
+        console.error('Erro ao tentar enviar e-mail:', error);
+        alert('Ocorreu um erro ao enviar a notificação. Verifique a consola para mais detalhes.');
+    } finally {
+        submitEmailBtn.disabled = false;
+        submitEmailBtn.textContent = 'Confirmar Envio';
+        closeModal();
+    }
+}
 
             // --- EVENT LISTENERS ---
             addCardBtn.addEventListener('click', addNewCard);
@@ -272,6 +278,31 @@ firebase.initializeApp(firebaseConfig);
                 } else if (e.target.classList.contains('botaoDeletarCard')) {
                     deleteCard(card.dataset.id);
                 }
+            });
+
+            editBtn.addEventListener('click', () => {
+                const currentTitle = modalTitle.textContent;
+                const currentDescription = modalDescription.textContent;
+                const currentImageSrc = modalImage.src;
+
+                viewMode.style.display = 'none';
+                emailForm.style.display = 'none';
+
+                ideaTitleInput.value = currentTitle;
+                ideaDescriptionInput.value = currentDescription;
+                
+                if (currentImageSrc && !currentImageSrc.includes('placehold.co')) {
+                    imagePreview.src = currentImageSrc;
+                    imagePreview.style.display = 'block';
+                    imagePreviewText.style.display = 'none';
+                } else {
+                    imagePreview.src = '';
+                    imagePreview.style.display = 'none';
+                    imagePreviewText.style.display = 'block';
+                }
+                imageUpload.value = '';
+
+                editModeForm.style.display = 'block';
             });
 
             imageUpload.addEventListener('change', (e) => {
