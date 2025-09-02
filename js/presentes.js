@@ -172,7 +172,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function handleSendEmail(e) {
         e.preventDefault();
-        const urlDoSeuGoogleAppsScript = 'https://script.google.com/macros/s/AKfycbwRCE654b9BvwUyfa0ehmLkcyjm6ziSis78z85E-yecwsHWg8qfICnQii24cAcYs1xr/exec';
+        const urlDoSeuGoogleAppsScript = 'https://script.google.com/macros/s/AKfycbx91vIy-KSZ1wuEB6vBj8rHTPxvWWpWjotsX-PMXMyM9eyV6vR4ZGEpATBGy17GuXuu/exec';
         const seuEmail = "valentinawpp25@gmail.com";
         const emailDela = "qpanaclara@gmail.com";
         if (!dateInput.value) {
